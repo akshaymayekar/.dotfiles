@@ -1,5 +1,5 @@
 # SPEED FIRST
-# add_newline = false
+add_newline = false
 # Bail quickly if any module is slow (prevents lag in huge repos)
 command_timeout = 200
 
