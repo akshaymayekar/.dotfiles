@@ -1,0 +1,68 @@
+# SPEED FIRST
+# add_newline = false
+# Bail quickly if any module is slow (prevents lag in huge repos)
+command_timeout = 200
+
+# Only render what we care about, in this order.
+# format = "$directory$git_branch$git_status$nodejs$python$character"
+
+# ── Directory ────────────────────────────────────────────────────────────────
+# [directory]
+# truncate_to_repo = true
+# truncation_length = 3
+
+# ── Git (branch + minimal status) ───────────────────────────────────────────
+[git_branch]
+symbol = "🌱 "
+format = "[$symbol$branch]($style) "
+# truncation_length = 24
+
+[git_status]
+format = '([\[$all_status$ahead_behind\]]($style) )'
+# style = "bold yellow"
+
+# Show counts
+conflicted = "[=$count](bold red) "
+staged     = "[+$count](green) "
+modified   = "[!$count](yellow) "
+renamed    = "[»$count](bold cyan) "
+deleted    = "[✘$count](red) "
+untracked  = "[?$count](bold red) "
+stashed    = "[$$count](blue) "
+ahead      = "[⇡$count](cyan) "
+behind     = "[⇣$count](cyan) "
+diverged   = "[⇕$count](cyan) "
+
+# ── Node.js (only in Node projects) ─────────────────────────────────────────
+[nodejs]
+# Restrict scanning so it doesn’t probe every dir
+detect_files = ["package.json", "pnpm-lock.yaml", "yarn.lock", "bun.lockb", ".nvmrc", ".node-version"]
+detect_extensions = ["js", "mjs", "cjs", "ts"]
+format = " [node $version]($style) "
+style = "bold green"
+
+# ── Python (only in real Python projects/venvs) ─────────────────────────────
+[python]
+# Prefer .venv/venv & project files; avoids running pyenv unless needed
+detect_folders = [".venv", "venv"]
+detect_files = ["pyproject.toml", "requirements.txt", "Pipfile", ".python-version"]
+detect_extensions = ["py"]
+# Show venv or version succinctly
+format = " [py $version]($style) "
+style = "bold blue"
+# If you use pyenv and want its name shown, uncomment:
+# pyenv_version_name = true
+
+[java]
+disabled = true
+
+[lua]
+disabled = true
+
+[package]
+disabled = true
+
+# ── Prompt symbol ───────────────────────────────────────────────────────────
+# [character]
+# success_symbol = "➜ "
+# error_symbol = "✗ "
