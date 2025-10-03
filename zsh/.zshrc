@@ -49,3 +49,47 @@ fi
 if command -v uv >/dev/null 2>&1; then
   uv() { unfunction uv 2>/dev/null; eval "$(command uv generate-shell-completion zsh 2>/dev/null || true)"; command uv "$@"; }
 fi
+
+# --- Auto-update Znap + plugins (weekly) ---
+# Drop this near the end of your .zshrc (after sourcing Znap & declaring plugins)
+
+# Only in interactive shells
+[[ -o interactive ]] || return
+
+# How often to update (days)
+: ${ZNAP_AUTO_UPDATE_DAYS:=7}
+
+# Paths
+_znap_stamp="${HOME}/.zsh/.znap-last-update"
+_znap_log="${HOME}/.zsh/.znap-update.log"
+_znap_lock="${HOME}/.zsh/.znap-update.lock"
+
+# Use zsh's EPOCHSECONDS for robust time math
+zmodload zsh/datetime 2>/dev/null
+
+_znap_needs_update() {
+  local now=$EPOCHSECONDS
+  local interval=$(( ZNAP_AUTO_UPDATE_DAYS * 24 * 60 * 60 ))
+  [[ ! -f "$_znap_stamp" ]] && return 0
+  local last; read -r last <"$_znap_stamp" || last=0
+  (( now - last >= interval ))
+}
+
+_znap_safe_update() {
+  # poor-man's lock to avoid multiple shells racing
+  if mkdir "$_znap_lock" 2>/dev/null; then
+    {
+      echo "[$(date '+%Y-%m-%d %H:%M:%S')] znap pull start"
+      znap pull
+      znap compile
+      echo $EPOCHSECONDS >| "$_znap_stamp"
+      echo "[$(date '+%Y-%m-%d %H:%M:%S')] znap pull done"
+    } >>"$_znap_log" 2>&1
+    rmdir "$_znap_lock" 2>/dev/null
+  fi
+}
+
+if _znap_needs_update; then
+  # run fully in background; do not block your prompt
+  (_znap_safe_update) &!
+fi
