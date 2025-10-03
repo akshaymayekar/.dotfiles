@@ -13,9 +13,9 @@ command_timeout = 200
 
 # ── Git (branch + minimal status) ───────────────────────────────────────────
 [git_branch]
-symbol = "🌱 "
+symbol = " "
 format = "[$symbol$branch]($style) "
-# truncation_length = 24
+style = "bold purple"
 
 [git_status]
 format = '([\[$all_status$ahead_behind\]]($style) )'
@@ -38,7 +38,8 @@ diverged   = "[⇕$count](cyan) "
 # Restrict scanning so it doesn’t probe every dir
 detect_files = ["package.json", "pnpm-lock.yaml", "yarn.lock", "bun.lockb", ".nvmrc", ".node-version"]
 detect_extensions = ["js", "mjs", "cjs", "ts"]
-format = " [node $version]($style) "
+format = " [${symbol}$version]($style) "
+symbol = " "
 style = "bold green"
 
 # ── Python (only in real Python projects/venvs) ─────────────────────────────
@@ -47,9 +48,10 @@ style = "bold green"
 detect_folders = [".venv", "venv"]
 detect_files = ["pyproject.toml", "requirements.txt", "Pipfile", ".python-version"]
 detect_extensions = ["py"]
+symbol = "🐍 "
 # Show venv or version succinctly
-format = " [py $version]($style) "
-style = "bold blue"
+format = " [${symbol}$version]($style) "
+style = "bold yellow"
 # If you use pyenv and want its name shown, uncomment:
 # pyenv_version_name = true
 
