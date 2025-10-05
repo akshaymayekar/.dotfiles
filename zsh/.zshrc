@@ -31,6 +31,7 @@ znap source zsh-users/zsh-autosuggestions
 znap source zsh-users/zsh-syntax-highlighting   # keep after autosuggestions
 
 # Lib for shorthand cd
+znap source ohmyzsh/ohmyzsh lib/completion
 znap source ohmyzsh/ohmyzsh lib/directories
 
 # starship prompt
@@ -93,3 +94,5 @@ if _znap_needs_update; then
   # run fully in background; do not block your prompt
   (_znap_safe_update) &!
 fi
+
+######################################################################
