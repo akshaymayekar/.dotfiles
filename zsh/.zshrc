@@ -33,6 +33,7 @@ znap source zsh-users/zsh-syntax-highlighting   # keep after autosuggestions
 # Lib for shorthand cd
 znap source ohmyzsh/ohmyzsh lib/completion
 znap source ohmyzsh/ohmyzsh lib/directories
+znap source ohmyzsh/ohmyzsh lib/git
 
 # starship prompt
 znap eval starship 'starship init zsh'
