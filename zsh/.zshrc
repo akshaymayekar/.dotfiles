@@ -1,5 +1,4 @@
 #### ==== core ====
-export ZDOTDIR="${ZDOTDIR:-$HOME}"
 export EDITOR="nvim"
 setopt prompt_subst hist_ignore_dups share_history
 autoload -Uz compinit
