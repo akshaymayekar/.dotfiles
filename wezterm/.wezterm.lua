@@ -16,8 +16,7 @@ config.keys = {
 	{ key = "M", mods = "CMD|SHIFT", action = wezterm.action.ToggleFullScreen },
 
 	-- Search text
-	-- { key = 'f', mods = 'CMD', action = wezterm.action.Search { CaseSensitiveString = "" }},
-	-- { key = 'f', mods = 'CMD|SHIFT', action = wezterm.action.Search { CaseInSensitiveString = "" }},
+	{ key = 'f', mods = 'CMD', action = wezterm.action.Search("CurrentSelectionOrEmptyString")},
 
 	-- Cmd + D for horizontal split (same as iTerm)
 	{ key = "d", mods = "CMD", action = wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
