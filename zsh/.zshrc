@@ -53,6 +53,23 @@ eval "$(uv generate-shell-completion zsh)"
 export PATH="$HOME/.jenv/bin:$PATH"
 eval "$(jenv init -)"
 
+# Keybinding:
+# Home/End from WezTerm
+bindkey -M emacs '\e[H' beginning-of-line
+bindkey -M emacs '\e[F' end-of-line
+bindkey -M viins '\e[H' beginning-of-line
+bindkey -M viins '\e[F' end-of-line
+bindkey -M vicmd '\e[H' beginning-of-line
+bindkey -M vicmd '\e[F' end-of-line
+
+# Shift+Option arrows (xterm modifier 1;4)
+bindkey -M emacs '\e[1;4D' backward-word
+bindkey -M emacs '\e[1;4C' forward-word
+bindkey -M viins '\e[1;4D' backward-word
+bindkey -M viins '\e[1;4C' forward-word
+bindkey -M vicmd '\e[1;4D' backward-word
+bindkey -M vicmd '\e[1;4C' forward-word
+
 # --- Auto-update Znap + plugins (weekly) ---
 # Drop this near the end of your .zshrc (after sourcing Znap & declaring plugins)
 
