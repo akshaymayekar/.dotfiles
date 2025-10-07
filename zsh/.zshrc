@@ -33,6 +33,7 @@ znap source zsh-users/zsh-syntax-highlighting   # keep after autosuggestions
 znap source ohmyzsh/ohmyzsh lib/completion
 znap source ohmyzsh/ohmyzsh lib/directories
 znap source ohmyzsh/ohmyzsh lib/git
+znap source ohmyzsh/ohmyzsh lib/key-bindings
 
 # starship prompt
 znap eval starship 'starship init zsh'
@@ -62,13 +63,13 @@ bindkey -M viins '\e[F' end-of-line
 bindkey -M vicmd '\e[H' beginning-of-line
 bindkey -M vicmd '\e[F' end-of-line
 
-# Shift+Option arrows (xterm modifier 1;4)
-bindkey -M emacs '\e[1;4D' backward-word
-bindkey -M emacs '\e[1;4C' forward-word
-bindkey -M viins '\e[1;4D' backward-word
-bindkey -M viins '\e[1;4C' forward-word
-bindkey -M vicmd '\e[1;4D' backward-word
-bindkey -M vicmd '\e[1;4C' forward-word
+# Shift arrows (xterm modifier 1;2)
+bindkey -M emacs '\e[1;2D' backward-word
+bindkey -M emacs '\e[1;2C' forward-word
+bindkey -M viins '\e[1;2D' backward-word
+bindkey -M viins '\e[1;2C' forward-word
+bindkey -M vicmd '\e[1;2D' backward-word
+bindkey -M vicmd '\e[1;2C' forward-word
 
 # --- Auto-update Znap + plugins (weekly) ---
 # Drop this near the end of your .zshrc (after sourcing Znap & declaring plugins)
