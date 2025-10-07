@@ -71,6 +71,15 @@ bindkey -M viins '\e[1;2C' forward-word
 bindkey -M vicmd '\e[1;2D' backward-word
 bindkey -M vicmd '\e[1;2C' forward-word
 
+# Custom commands:
+mkcd() {
+  if [ -z "$1" ]; then
+    echo "Usage: mkcd <directory>"
+    return 1
+  fi
+  mkdir -p "$1" && cd "$1"
+}
+
 # --- Auto-update Znap + plugins (weekly) ---
 # Drop this near the end of your .zshrc (after sourcing Znap & declaring plugins)
 
