@@ -10,45 +10,46 @@ config.font_size = 14
 -- config.use_fancy_tab_bar = false
 
 config.keys = {
-	{ key = "k", mods = "CMD", action = wezterm.action.ClearScrollback("ScrollbackAndViewport") },
+	{ key = "k",          mods = "CMD",       action = wezterm.action.ClearScrollback("ScrollbackAndViewport") },
+	{ key = "Enter",      mods = "SHIFT",     action = wezterm.action { SendString = "\x1b\r" } },
 
 	-- Toggle fullscreen mode
-	{ key = "M", mods = "CMD|SHIFT", action = wezterm.action.ToggleFullScreen },
+	{ key = "M",          mods = "CMD|SHIFT", action = wezterm.action.ToggleFullScreen },
 
 	-- Search text
-	{ key = 'f', mods = 'CMD', action = wezterm.action.Search("CurrentSelectionOrEmptyString")},
+	{ key = 'f',          mods = 'CMD',       action = wezterm.action.Search("CurrentSelectionOrEmptyString") },
 
 	-- Cmd + D for horizontal split (same as iTerm)
-	{ key = "d", mods = "CMD", action = wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
+	{ key = "d",          mods = "CMD",       action = wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
 	-- Cmd + Shift + D for vertical split
-	{ key = "d", mods = "CMD|SHIFT", action = wezterm.action.SplitVertical({ domain = "CurrentPaneDomain" }) },
+	{ key = "d",          mods = "CMD|SHIFT", action = wezterm.action.SplitVertical({ domain = "CurrentPaneDomain" }) },
 	-- Switch to the left pane
-	{ key = "LeftArrow", mods = "CMD|SHIFT", action = wezterm.action.ActivatePaneDirection("Left") },
+	{ key = "LeftArrow",  mods = "CMD|SHIFT", action = wezterm.action.ActivatePaneDirection("Left") },
 	-- Switch to the right pane
 	{ key = "RightArrow", mods = "CMD|SHIFT", action = wezterm.action.ActivatePaneDirection("Right") },
 	-- Switch to the pane above
-	{ key = "UpArrow", mods = "CMD|SHIFT", action = wezterm.action.ActivatePaneDirection("Up") },
+	{ key = "UpArrow",    mods = "CMD|SHIFT", action = wezterm.action.ActivatePaneDirection("Up") },
 	-- Switch to the pane below
-	{ key = "DownArrow", mods = "CMD|SHIFT", action = wezterm.action.ActivatePaneDirection("Down") },
+	{ key = "DownArrow",  mods = "CMD|SHIFT", action = wezterm.action.ActivatePaneDirection("Down") },
 	-- Resize pane to the left
-	{ key = "LeftArrow", mods = "CMD|OPT", action = wezterm.action.AdjustPaneSize({ "Left", 1 }) },
+	{ key = "LeftArrow",  mods = "CMD|OPT",   action = wezterm.action.AdjustPaneSize({ "Left", 1 }) },
 	-- Resize pane to the right
-	{ key = "RightArrow", mods = "CMD|OPT", action = wezterm.action.AdjustPaneSize({ "Right", 1 }) },
+	{ key = "RightArrow", mods = "CMD|OPT",   action = wezterm.action.AdjustPaneSize({ "Right", 1 }) },
 	-- Resize pane upwards
-	{ key = "UpArrow", mods = "CMD|OPT", action = wezterm.action.AdjustPaneSize({ "Up", 1 }) },
+	{ key = "UpArrow",    mods = "CMD|OPT",   action = wezterm.action.AdjustPaneSize({ "Up", 1 }) },
 	-- Resize pane downwards
-	{ key = "DownArrow", mods = "CMD|OPT", action = wezterm.action.AdjustPaneSize({ "Down", 1 }) },
+	{ key = "DownArrow",  mods = "CMD|OPT",   action = wezterm.action.AdjustPaneSize({ "Down", 1 }) },
 	-- Toggle the zoom state of the current pane
-	{ key = "Enter", mods = "CMD|SHIFT", action = wezterm.action.TogglePaneZoomState },
+	{ key = "Enter",      mods = "CMD|SHIFT", action = wezterm.action.TogglePaneZoomState },
 
 	-- Cmd + Option + Left Arrow to switch to the previous tab
-	{ key = "LeftArrow", mods = "CMD", action = wezterm.action.ActivateTabRelative(-1) },
+	{ key = "LeftArrow",  mods = "CMD",       action = wezterm.action.ActivateTabRelative(-1) },
 	-- Cmd + Option + Right Arrow to switch to the next tab
-	{ key = "RightArrow", mods = "CMD", action = wezterm.action.ActivateTabRelative(1) },
+	{ key = "RightArrow", mods = "CMD",       action = wezterm.action.ActivateTabRelative(1) },
 	-- Bind Cmd + Shift + A to open the tab navigator for quick tab switching
-	{ key = "A", mods = "CMD|SHIFT", action = wezterm.action.ShowTabNavigator },
+	{ key = "A",          mods = "CMD|SHIFT", action = wezterm.action.ShowTabNavigator },
 	-- Bind Cmd + Shift + P to open the command palette (launcher menu) for quick access to tabs, panes, and actions
-	{ key = "P", mods = "CMD|SHIFT", action = wezterm.action.ShowLauncher },
+	{ key = "P",          mods = "CMD|SHIFT", action = wezterm.action.ShowLauncher },
 }
 
 config.color_scheme = "Tokyo Night"

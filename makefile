@@ -32,3 +32,9 @@ lock:
 # clean zsh caches
 clean:
 	rm -f ~/.zcompdump*
+
+backup-vscode-extensions:
+	code --list-extensions > vscode-extensions.txt
+
+install-vscode-extensions:
+	cat vscode-extensions.txt | xargs -L 1 code --install-extension
