@@ -38,21 +38,32 @@ znap source ohmyzsh/ohmyzsh lib/key-bindings
 # starship prompt
 znap eval starship 'starship init zsh'
 
-# initialize pyenv config
+# ──────────────────────────────────────────────────────────────────────
+# LAZY-LOADED VERSION MANAGERS (for speed)
+# ──────────────────────────────────────────────────────────────────────
+
+# pyenv - lazy load (only init when 'pyenv' command is run)
 export PYENV_ROOT="$HOME/.pyenv"
-command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
+export PATH="$PYENV_ROOT/bin:$PATH"
+pyenv() {
+  unset -f pyenv
+  eval "$(command pyenv init -)"
+  pyenv "$@"
+}
 
-
-# initialize fnm for node version management.
-eval "$(fnm env --shell zsh)"
-
-# initialize uv for python
-eval "$(uv generate-shell-completion zsh)"
-
-# initialize jenv config
+# jenv - lazy load (only init when 'jenv' command is run)
 export PATH="$HOME/.jenv/bin:$PATH"
-eval "$(jenv init -)"
+jenv() {
+  unset -f jenv
+  eval "$(command jenv init -)"
+  jenv "$@"
+}
+
+# fnm - cached initialization (faster than raw eval)
+znap eval fnm 'fnm env --shell zsh'
+
+# uv - cached shell completion (faster than raw eval)
+znap eval uv 'uv generate-shell-completion zsh'
 
 # Keybinding:
 # Home/End from WezTerm
