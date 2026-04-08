@@ -4,7 +4,7 @@ add_newline = false
 command_timeout = 200
 
 # Only render what we care about, in this order.
-# format = "$directory$git_branch$git_status$nodejs$python$character"
+format = "$directory$git_branch$git_status$character"
 
 # ── Directory ────────────────────────────────────────────────────────────────
 # [directory]
@@ -35,12 +35,14 @@ behind     = "[⇣$count](cyan) "
 diverged   = "[⇕$count](cyan) "
 
 [nodejs]
+disabled=true
 detect_files = ["package.json", ".nvmrc", ".node-version"]
 format = " [${symbol}$version]($style) "
 symbol = " "
 style = "bold green"
 
 [python]
+disabled=true
 detect_folders = [".venv", "venv"]
 detect_files = ["pyproject.toml", "requirements.txt", "Pipfile", ".python-version"]
 symbol = "🐍 "
