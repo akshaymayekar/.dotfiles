@@ -8,12 +8,20 @@ if [[ ! -f ~/.zcompdump || ~/.zshrc -nt ~/.zcompdump ]]; then compinit; else com
 export GOPATH="${GOPATH:-$HOME/go}"
 export PATH="$HOME/.local/bin:$GOPATH/bin:$PATH"
 
+#### ==== completion styles ====
+zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' 'r:|=*' 'l:|=* r:|=*'
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+zstyle ':completion:*' special-dirs true
+
+#### ==== directory options ====
+setopt auto_cd auto_pushd pushd_ignore_dups pushd_minus
+
+#### ==== key bindings ====
+source "$ZDOTDIR/.zkeybindings"
+
 #### ==== aliases ====
-alias dc='docker-compose'
-alias cls='clear'
-alias nv='nvim'
-alias pc='open -a /Applications/PyCharm\ CE.app/Contents/MacOS/pycharm'
-alias make='gmake'
+source "$ZDOTDIR/.zaliases"
 
 #### ==== Znap (plugin manager) ====
 # one-time bootstrap if missing
@@ -23,17 +31,11 @@ if [[ ! -r "$HOME/.zsh/znap/znap.zsh" ]]; then
 fi
 source "$HOME/.zsh/znap/znap.zsh"
 
-# plugins (kept tiny for speed)
-znap source ohmyzsh/ohmyzsh plugins/common-aliases
-znap source ohmyzsh/ohmyzsh plugins/git
-znap source zsh-users/zsh-autosuggestions
-znap source zsh-users/zsh-syntax-highlighting   # keep after autosuggestions
+# plugins
+znap source romkatv/zsh-defer
+zsh-defer znap source zsh-users/zsh-autosuggestions
+zsh-defer znap source zdharma-continuum/fast-syntax-highlighting
 
-# Required omz libs
-znap source ohmyzsh/ohmyzsh lib/completion
-znap source ohmyzsh/ohmyzsh lib/directories
-znap source ohmyzsh/ohmyzsh lib/git
-znap source ohmyzsh/ohmyzsh lib/key-bindings
 
 # starship prompt
 znap eval starship 'starship init zsh'
@@ -42,54 +44,15 @@ znap eval starship 'starship init zsh'
 # LAZY-LOADED VERSION MANAGERS (for speed)
 # ──────────────────────────────────────────────────────────────────────
 
-# pyenv - lazy load (only init when 'pyenv' command is run)
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-pyenv() {
-  unset -f pyenv
-  eval "$(command pyenv init -)"
-  pyenv "$@"
-}
-
-# jenv - lazy load (only init when 'jenv' command is run)
-export PATH="$HOME/.jenv/bin:$PATH"
-jenv() {
-  unset -f jenv
-  eval "$(command jenv init -)"
-  jenv "$@"
-}
-
-# fnm - cached initialization (faster than raw eval)
-znap eval fnm 'fnm env --shell zsh'
+# mise - cached activation
+znap eval mise 'mise activate zsh'
 
 # uv - cached shell completion (faster than raw eval)
 znap eval uv 'uv generate-shell-completion zsh'
 
-# Keybinding:
-# Home/End from WezTerm
-bindkey -M emacs '\e[H' beginning-of-line
-bindkey -M emacs '\e[F' end-of-line
-bindkey -M viins '\e[H' beginning-of-line
-bindkey -M viins '\e[F' end-of-line
-bindkey -M vicmd '\e[H' beginning-of-line
-bindkey -M vicmd '\e[F' end-of-line
 
-# Shift arrows (xterm modifier 1;2)
-bindkey -M emacs '\e[1;2D' backward-word
-bindkey -M emacs '\e[1;2C' forward-word
-bindkey -M viins '\e[1;2D' backward-word
-bindkey -M viins '\e[1;2C' forward-word
-bindkey -M vicmd '\e[1;2D' backward-word
-bindkey -M vicmd '\e[1;2C' forward-word
-
-# Custom commands:
-mkcd() {
-  if [ -z "$1" ]; then
-    echo "Usage: mkcd <directory>"
-    return 1
-  fi
-  mkdir -p "$1" && cd "$1"
-}
+#### ==== functions ====
+source "$ZDOTDIR/.zfunctions"
 
 # --- Auto-update Znap + plugins (weekly) ---
 # Drop this near the end of your .zshrc (after sourcing Znap & declaring plugins)
