@@ -52,6 +52,10 @@ config.keys = {
 	{ key = "P",          mods = "CMD|SHIFT", action = wezterm.action.ShowLauncher },
 }
 
+-- default shell (comment out one)
+config.default_prog = { "/opt/homebrew/bin/fish" }
+-- config.default_prog = { "/bin/zsh", "-l" }
+
 config.color_scheme = "Tokyo Night"
 -- config.color_scheme = "Night Owl (Gogh)"
 
