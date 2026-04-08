@@ -5,11 +5,11 @@ all: stow
 
 # symlink dotfiles into $HOME
 stow:
-	stow -v -t $(HOME) zsh starship wezterm
+	stow -v -t $(HOME) zsh starship wezterm fish
 
 # remove symlinks
 unstow:
-	stow -D -v -t $(HOME) zsh starship wezterm
+	stow -D -v -t $(HOME) zsh starship wezterm fish
 
 # re-link (good after edits)
 restow: unstow stow
