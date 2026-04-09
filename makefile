@@ -1,4 +1,4 @@
-.PHONY: stow unstow restow bootstrap update lock clean brew-install brew-dump
+.PHONY: stow unstow restow bootstrap update lock clean brew-install brew-dump brew-sync
 
 # default target
 all: stow
@@ -17,6 +17,7 @@ restow: unstow stow
 # run first-time setup (submodules, stow, etc.)
 bootstrap:
 	git submodule update --init --recursive
+	$(MAKE) brew-install
 	$(MAKE) stow
 
 # pull latest plugin submodules (review diffs before committing)
@@ -36,6 +37,10 @@ brew-install:
 # update Brewfile from explicitly installed packages
 brew-dump:
 	brew bundle dump --force --no-upgrade --file=$(CURDIR)/Brewfile
+
+# interactively add new explicitly installed packages to Brewfile
+brew-sync:
+	@$(CURDIR)/scripts/brew-sync.sh $(CURDIR)/Brewfile
 
 # clean zsh caches
 clean:
