@@ -31,6 +31,7 @@ abbr -a grb 'git rebase'
 abbr -a glog 'git log --oneline --decorate --graph'
 abbr -a gloga 'git log --oneline --decorate --graph --all'
 abbr -a gg 'git gui'
+abbr -a lg lazygit
 
 #### ==== docker ====
 abbr -a d docker
@@ -40,3 +41,4 @@ abbr -a dpsa 'docker ps -a'
 abbr -a dex 'docker exec -it'
 abbr -a dlogs 'docker logs -f'
 abbr -a dprune 'docker system prune -f'
+abbr -a ld lazydocker

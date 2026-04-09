@@ -37,6 +37,7 @@ alias grb='git rebase'
 alias glog='git log --oneline --decorate --graph'
 alias gloga='git log --oneline --decorate --graph --all'
 alias gg='git gui'
+alias lg='lazygit'
 
 #### ==== docker ====
 alias d='docker'
@@ -46,3 +47,4 @@ alias dpsa='docker ps -a'
 alias dex='docker exec -it'
 alias dlogs='docker logs -f'
 alias dprune='docker system prune -f'
+alias ld='lazydocker'
