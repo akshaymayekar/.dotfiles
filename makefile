@@ -1,15 +1,15 @@
-.PHONY: stow unstow restow bootstrap update lock clean
+.PHONY: stow unstow restow bootstrap update lock clean brew-install brew-dump
 
 # default target
 all: stow
 
 # symlink dotfiles into $HOME
 stow:
-	stow -v -t $(HOME) zsh starship wezterm fish
+	stow -v -t $(HOME) zsh starship wezterm fish ghostty
 
 # remove symlinks
 unstow:
-	stow -D -v -t $(HOME) zsh starship wezterm fish
+	stow -D -v -t $(HOME) zsh starship wezterm fish ghostty
 
 # re-link (good after edits)
 restow: unstow stow
@@ -28,6 +28,14 @@ update:
 lock:
 	git add zsh/plugins -A
 	git commit -m "Lock plugin SHAs"
+
+# install all packages from Brewfile
+brew-install:
+	brew bundle install --file=$(CURDIR)/Brewfile
+
+# update Brewfile from explicitly installed packages
+brew-dump:
+	brew bundle dump --force --no-upgrade --file=$(CURDIR)/Brewfile
 
 # clean zsh caches
 clean:
