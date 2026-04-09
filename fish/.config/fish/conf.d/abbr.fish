@@ -7,9 +7,10 @@ abbr -a cls clear
 abbr -a make gmake
 
 #### ==== ls ====
-abbr -a l 'ls -lah'
-abbr -a ll 'ls -lh'
-abbr -a la 'ls -lAh'
+abbr -a l 'eza -lah --icons --git'
+abbr -a ll 'eza -lh --icons --git'
+abbr -a la 'eza -lah --icons --git -a'
+abbr -a lt 'eza --tree --icons --git'
 
 #### ==== git ====
 abbr -a g git

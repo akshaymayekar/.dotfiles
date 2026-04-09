@@ -7,9 +7,10 @@ alias cls='clear'
 alias make='gmake'
 
 #### ==== ls ====
-alias l='ls -lah'
-alias ll='ls -lh'
-alias la='ls -lAh'
+alias l='eza -lah --icons --git'
+alias ll='eza -lh --icons --git'
+alias la='eza -lah --icons --git -a'
+alias lt='eza --tree --icons --git'
 
 #### ==== navigation ====
 alias -- -='cd -'
