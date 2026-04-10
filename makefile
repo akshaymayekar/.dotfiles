@@ -1,59 +1,60 @@
-.PHONY: stow unstow restow bootstrap update lock clean brew-install brew-dump brew-sync install-brew
+.PHONY: all help stow unstow restow bootstrap install-brew brew-install brew-dump brew-sync clean fish-regen backup-vscode-extensions install-vscode-extensions
 
-# default target
+# ── Default ───────────────────────────────────────────────────────────────────
 all: stow
 
-# install homebrew if not present
-install-brew:
-	@command -v brew >/dev/null 2>&1 && echo "Homebrew already installed." || \
-		/bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+# ── Help ──────────────────────────────────────────────────────────────────────
+help: ## show this help
+	@grep -E '^[a-zA-Z_-]+:.*##' $(MAKEFILE_LIST) | \
+		awk 'BEGIN {FS = ":.*##"}; {printf "  \033[36m%-28s\033[0m %s\n", $$1, $$2}' | sort
 
-# symlink dotfiles into $HOME
-stow:
-	stow -v -t $(HOME) zsh starship wezterm fish ghostty
+# ── Bootstrap ─────────────────────────────────────────────────────────────────
 
-# remove symlinks
-unstow:
-	stow -D -v -t $(HOME) zsh starship wezterm fish ghostty
+# ── Bootstrap ─────────────────────────────────────────────────────────────────
 
-# re-link (good after edits)
-restow: unstow stow
-
-# run first-time setup (submodules, stow, etc.)
-bootstrap:
-	git submodule update --init --recursive
+bootstrap: ## full fresh machine setup (brew + packages + stow)
 	$(MAKE) install-brew
 	$(MAKE) brew-install
 	$(MAKE) stow
 
-# pull latest plugin submodules (review diffs before committing)
-update:
-	git submodule update --remote --merge
-	git status
+install-brew: ## install Homebrew if not present
+	@command -v brew >/dev/null 2>&1 && echo "Homebrew already installed." || \
+		/bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-# lock current plugin SHAs into repo
-lock:
-	git add zsh/plugins -A
-	git commit -m "Lock plugin SHAs"
+# ── Stow ──────────────────────────────────────────────────────────────────────
 
-# install all packages from Brewfile
-brew-install:
+stow: ## symlink all dotfiles into HOME
+	stow -v -t $(HOME) zsh starship wezterm fish ghostty
+
+unstow: ## remove all dotfile symlinks
+	stow -D -v -t $(HOME) zsh starship wezterm fish ghostty
+
+restow: unstow stow ## re-link dotfiles (use after adding new files)
+
+# ── Homebrew ──────────────────────────────────────────────────────────────────
+
+brew-install: ## install all packages from Brewfile
 	brew bundle install --file=$(CURDIR)/Brewfile
 
-# update Brewfile from explicitly installed packages
-brew-dump:
-	brew bundle dump --force --no-upgrade --file=$(CURDIR)/Brewfile
-
-# interactively add new explicitly installed packages to Brewfile
-brew-sync:
+brew-sync: ## interactively add new brew installs to Brewfile
 	@$(CURDIR)/scripts/brew-sync.sh $(CURDIR)/Brewfile
 
-# clean zsh caches
-clean:
-	rm -f ~/.zcompdump*
+brew-dump: ## overwrite Brewfile from current brew state (use with caution)
+	brew bundle dump --force --no-upgrade --file=$(CURDIR)/Brewfile
 
-backup-vscode-extensions:
+# ── Maintenance ───────────────────────────────────────────────────────────────
+
+clean: ## remove zsh and fish startup caches
+	rm -f ~/.zcompdump*
+	rm -f ~/.cache/fish/mise.fish ~/.cache/fish/starship.fish
+
+fish-regen: ## rebuild fish startup caches (run after upgrading mise/starship/uv)
+	fish -c fish-regen
+
+# ── VSCode ────────────────────────────────────────────────────────────────────
+
+backup-vscode-extensions: ## save installed VSCode extensions to file
 	code --list-extensions > vscode-extensions.txt
 
-install-vscode-extensions:
+install-vscode-extensions: ## install VSCode extensions from file
 	cat vscode-extensions.txt | xargs -L 1 code --install-extension
