@@ -1,7 +1,12 @@
-.PHONY: stow unstow restow bootstrap update lock clean brew-install brew-dump brew-sync
+.PHONY: stow unstow restow bootstrap update lock clean brew-install brew-dump brew-sync install-brew
 
 # default target
 all: stow
+
+# install homebrew if not present
+install-brew:
+	@command -v brew >/dev/null 2>&1 && echo "Homebrew already installed." || \
+		/bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 # symlink dotfiles into $HOME
 stow:
@@ -17,6 +22,7 @@ restow: unstow stow
 # run first-time setup (submodules, stow, etc.)
 bootstrap:
 	git submodule update --init --recursive
+	$(MAKE) install-brew
 	$(MAKE) brew-install
 	$(MAKE) stow
 
