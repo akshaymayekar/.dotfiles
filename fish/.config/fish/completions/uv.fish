@@ -1,6 +1,6 @@
 # Print an optspec for argparse to handle cmd's options that are independent of any subcommand.
 function __fish_uv_global_optspecs
-	string join \n n/no-cache cache-dir= python-preference= managed-python no-managed-python allow-python-downloads no-python-downloads python-fetch= q/quiet v/verbose no-color color= native-tls no-native-tls offline no-offline allow-insecure-host= preview no-preview preview-features= isolated show-settings no-progress no-installer-metadata directory= project= config-file= no-config h/help V/version
+	string join \n n/no-cache cache-dir= python-preference= managed-python no-managed-python allow-python-downloads no-python-downloads python-fetch= q/quiet v/verbose no-color color= native-tls no-native-tls system-certs no-system-certs offline no-offline allow-insecure-host= preview no-preview preview-features= isolated show-settings no-progress no-installer-metadata directory= project= config-file= no-config h/help V/version
 end
 
 function __fish_uv_needs_command
@@ -48,8 +48,10 @@ complete -c uv -n "__fish_uv_needs_command" -l no-python-downloads -d 'Disable a
 complete -c uv -n "__fish_uv_needs_command" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_needs_command" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_needs_command" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_needs_command" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_needs_command" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_needs_command" -l no-native-tls
+complete -c uv -n "__fish_uv_needs_command" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_needs_command" -l no-system-certs
 complete -c uv -n "__fish_uv_needs_command" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_needs_command" -l no-offline
 complete -c uv -n "__fish_uv_needs_command" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -72,6 +74,7 @@ complete -c uv -n "__fish_uv_needs_command" -f -a "lock" -d 'Update the project\
 complete -c uv -n "__fish_uv_needs_command" -f -a "export" -d 'Export the project\'s lockfile to an alternate format'
 complete -c uv -n "__fish_uv_needs_command" -f -a "tree" -d 'Display the project\'s dependency tree'
 complete -c uv -n "__fish_uv_needs_command" -f -a "format" -d 'Format Python code in the project'
+complete -c uv -n "__fish_uv_needs_command" -f -a "audit" -d 'Audit the project\'s dependencies'
 complete -c uv -n "__fish_uv_needs_command" -f -a "tool" -d 'Run and install commands provided by Python packages'
 complete -c uv -n "__fish_uv_needs_command" -f -a "python" -d 'Manage Python versions and installations'
 complete -c uv -n "__fish_uv_needs_command" -f -a "pip" -d 'Manage Python packages with a pip-compatible interface'
@@ -109,8 +112,10 @@ complete -c uv -n "__fish_uv_using_subcommand auth; and not __fish_seen_subcomma
 complete -c uv -n "__fish_uv_using_subcommand auth; and not __fish_seen_subcommand_from login logout token dir helper" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand auth; and not __fish_seen_subcommand_from login logout token dir helper" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand auth; and not __fish_seen_subcommand_from login logout token dir helper" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand auth; and not __fish_seen_subcommand_from login logout token dir helper" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand auth; and not __fish_seen_subcommand_from login logout token dir helper" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand auth; and not __fish_seen_subcommand_from login logout token dir helper" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand auth; and not __fish_seen_subcommand_from login logout token dir helper" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand auth; and not __fish_seen_subcommand_from login logout token dir helper" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand auth; and not __fish_seen_subcommand_from login logout token dir helper" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand auth; and not __fish_seen_subcommand_from login logout token dir helper" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand auth; and not __fish_seen_subcommand_from login logout token dir helper" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -155,8 +160,10 @@ complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_f
 complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_from login" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_from login" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_from login" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_from login" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_from login" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_from login" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_from login" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_from login" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_from login" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_from login" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_from login" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -194,8 +201,10 @@ complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_f
 complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_from logout" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_from logout" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_from logout" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_from logout" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_from logout" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_from logout" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_from logout" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_from logout" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_from logout" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_from logout" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_from logout" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -233,8 +242,10 @@ complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_f
 complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_from token" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_from token" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_from token" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_from token" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_from token" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_from token" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_from token" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_from token" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_from token" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_from token" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_from token" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -269,8 +280,10 @@ complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_f
 complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_from dir" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_from dir" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_from dir" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_from dir" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_from dir" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_from dir" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_from dir" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_from dir" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_from dir" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_from dir" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_from dir" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -306,8 +319,10 @@ complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_f
 complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_from helper" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_from helper" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_from helper" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_from helper" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_from helper" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_from helper" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_from helper" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_from helper" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_from helper" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_from helper" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand auth; and __fish_seen_subcommand_from helper" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -334,6 +349,7 @@ complete -c uv -n "__fish_uv_using_subcommand run" -s i -l index-url -d '(Deprec
 complete -c uv -n "__fish_uv_using_subcommand run" -l extra-index-url -d '(Deprecated: use `--index` instead) Extra URLs of package indexes to use, in addition to `--index-url`' -r
 complete -c uv -n "__fish_uv_using_subcommand run" -s f -l find-links -d 'Locations to search for candidate distributions, in addition to those found in the registry indexes' -r
 complete -c uv -n "__fish_uv_using_subcommand run" -s P -l upgrade-package -d 'Allow upgrades for a specific package, ignoring pinned versions in any existing output file. Implies `--refresh-package`' -r -f
+complete -c uv -n "__fish_uv_using_subcommand run" -l upgrade-group -d 'Allow upgrades for all packages in a dependency group, ignoring pinned versions in any existing output file' -r
 complete -c uv -n "__fish_uv_using_subcommand run" -l reinstall-package -d 'Reinstall a specific package, regardless of whether it\'s already installed. Implies `--refresh-package`' -r -f
 complete -c uv -n "__fish_uv_using_subcommand run" -l index-strategy -d 'The strategy to use when resolving against multiple index URLs' -r -f -a "first-index\t'Only use results from the first index that returns a match for a given package name'
 unsafe-first-match\t'Search for every package name across all indexes, exhausting the versions from the first index before moving on to the next'
@@ -355,10 +371,10 @@ complete -c uv -n "__fish_uv_using_subcommand run" -l config-settings-package -d
 complete -c uv -n "__fish_uv_using_subcommand run" -l no-build-isolation-package -d 'Disable isolation when building source distributions for a specific package' -r -f
 complete -c uv -n "__fish_uv_using_subcommand run" -l exclude-newer -d 'Limit candidate packages to those that were uploaded prior to the given date' -r -f
 complete -c uv -n "__fish_uv_using_subcommand run" -l exclude-newer-package -d 'Limit candidate packages for specific packages to those that were uploaded prior to the given date' -r -f
-complete -c uv -n "__fish_uv_using_subcommand run" -l link-mode -d 'The method to use when installing packages from the global cache' -r -f -a "clone\t'Clone (i.e., copy-on-write) packages from the wheel into the `site-packages` directory'
-copy\t'Copy packages from the wheel into the `site-packages` directory'
-hardlink\t'Hard link packages from the wheel into the `site-packages` directory'
-symlink\t'Symbolically link packages from the wheel into the `site-packages` directory'"
+complete -c uv -n "__fish_uv_using_subcommand run" -l link-mode -d 'The method to use when installing packages from the global cache' -r -f -a "clone\t'Clone (i.e., copy-on-write) packages from the source into the destination'
+copy\t'Copy packages from the source into the destination'
+hardlink\t'Hard link packages from the source into the destination'
+symlink\t'Symbolically link packages from the source into the destination'"
 complete -c uv -n "__fish_uv_using_subcommand run" -l no-sources-package -d 'Don\'t use sources from the `tool.uv.sources` table for the specified packages' -r
 complete -c uv -n "__fish_uv_using_subcommand run" -l no-build-package -d 'Don\'t build source distributions for a specific package' -r -f
 complete -c uv -n "__fish_uv_using_subcommand run" -l no-binary-package -d 'Don\'t install pre-built wheels for a specific package' -r -f
@@ -476,8 +492,10 @@ complete -c uv -n "__fish_uv_using_subcommand run" -l no-python-downloads -d 'Di
 complete -c uv -n "__fish_uv_using_subcommand run" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand run" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand run" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand run" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand run" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand run" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand run" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand run" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand run" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand run" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand run" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -540,8 +558,10 @@ complete -c uv -n "__fish_uv_using_subcommand init" -l no-python-downloads -d 'D
 complete -c uv -n "__fish_uv_using_subcommand init" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand init" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand init" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand init" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand init" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand init" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand init" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand init" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand init" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand init" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand init" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -571,6 +591,7 @@ complete -c uv -n "__fish_uv_using_subcommand add" -s i -l index-url -d '(Deprec
 complete -c uv -n "__fish_uv_using_subcommand add" -l extra-index-url -d '(Deprecated: use `--index` instead) Extra URLs of package indexes to use, in addition to `--index-url`' -r
 complete -c uv -n "__fish_uv_using_subcommand add" -s f -l find-links -d 'Locations to search for candidate distributions, in addition to those found in the registry indexes' -r
 complete -c uv -n "__fish_uv_using_subcommand add" -s P -l upgrade-package -d 'Allow upgrades for a specific package, ignoring pinned versions in any existing output file. Implies `--refresh-package`' -r -f
+complete -c uv -n "__fish_uv_using_subcommand add" -l upgrade-group -d 'Allow upgrades for all packages in a dependency group, ignoring pinned versions in any existing output file' -r
 complete -c uv -n "__fish_uv_using_subcommand add" -l reinstall-package -d 'Reinstall a specific package, regardless of whether it\'s already installed. Implies `--refresh-package`' -r -f
 complete -c uv -n "__fish_uv_using_subcommand add" -l index-strategy -d 'The strategy to use when resolving against multiple index URLs' -r -f -a "first-index\t'Only use results from the first index that returns a match for a given package name'
 unsafe-first-match\t'Search for every package name across all indexes, exhausting the versions from the first index before moving on to the next'
@@ -592,10 +613,10 @@ complete -c uv -n "__fish_uv_using_subcommand add" -l config-settings-package -d
 complete -c uv -n "__fish_uv_using_subcommand add" -l no-build-isolation-package -d 'Disable isolation when building source distributions for a specific package' -r -f
 complete -c uv -n "__fish_uv_using_subcommand add" -l exclude-newer -d 'Limit candidate packages to those that were uploaded prior to the given date' -r -f
 complete -c uv -n "__fish_uv_using_subcommand add" -l exclude-newer-package -d 'Limit candidate packages for specific packages to those that were uploaded prior to the given date' -r -f
-complete -c uv -n "__fish_uv_using_subcommand add" -l link-mode -d 'The method to use when installing packages from the global cache' -r -f -a "clone\t'Clone (i.e., copy-on-write) packages from the wheel into the `site-packages` directory'
-copy\t'Copy packages from the wheel into the `site-packages` directory'
-hardlink\t'Hard link packages from the wheel into the `site-packages` directory'
-symlink\t'Symbolically link packages from the wheel into the `site-packages` directory'"
+complete -c uv -n "__fish_uv_using_subcommand add" -l link-mode -d 'The method to use when installing packages from the global cache' -r -f -a "clone\t'Clone (i.e., copy-on-write) packages from the source into the destination'
+copy\t'Copy packages from the source into the destination'
+hardlink\t'Hard link packages from the source into the destination'
+symlink\t'Symbolically link packages from the source into the destination'"
 complete -c uv -n "__fish_uv_using_subcommand add" -l no-sources-package -d 'Don\'t use sources from the `tool.uv.sources` table for the specified packages' -r
 complete -c uv -n "__fish_uv_using_subcommand add" -l no-build-package -d 'Don\'t build source distributions for a specific package' -r -f
 complete -c uv -n "__fish_uv_using_subcommand add" -l no-binary-package -d 'Don\'t install pre-built wheels for a specific package' -r -f
@@ -664,8 +685,10 @@ complete -c uv -n "__fish_uv_using_subcommand add" -l no-python-downloads -d 'Di
 complete -c uv -n "__fish_uv_using_subcommand add" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand add" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand add" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand add" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand add" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand add" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand add" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand add" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand add" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand add" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand add" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -684,6 +707,7 @@ complete -c uv -n "__fish_uv_using_subcommand remove" -s i -l index-url -d '(Dep
 complete -c uv -n "__fish_uv_using_subcommand remove" -l extra-index-url -d '(Deprecated: use `--index` instead) Extra URLs of package indexes to use, in addition to `--index-url`' -r
 complete -c uv -n "__fish_uv_using_subcommand remove" -s f -l find-links -d 'Locations to search for candidate distributions, in addition to those found in the registry indexes' -r
 complete -c uv -n "__fish_uv_using_subcommand remove" -s P -l upgrade-package -d 'Allow upgrades for a specific package, ignoring pinned versions in any existing output file. Implies `--refresh-package`' -r -f
+complete -c uv -n "__fish_uv_using_subcommand remove" -l upgrade-group -d 'Allow upgrades for all packages in a dependency group, ignoring pinned versions in any existing output file' -r
 complete -c uv -n "__fish_uv_using_subcommand remove" -l reinstall-package -d 'Reinstall a specific package, regardless of whether it\'s already installed. Implies `--refresh-package`' -r -f
 complete -c uv -n "__fish_uv_using_subcommand remove" -l index-strategy -d 'The strategy to use when resolving against multiple index URLs' -r -f -a "first-index\t'Only use results from the first index that returns a match for a given package name'
 unsafe-first-match\t'Search for every package name across all indexes, exhausting the versions from the first index before moving on to the next'
@@ -705,10 +729,10 @@ complete -c uv -n "__fish_uv_using_subcommand remove" -l config-settings-package
 complete -c uv -n "__fish_uv_using_subcommand remove" -l no-build-isolation-package -d 'Disable isolation when building source distributions for a specific package' -r -f
 complete -c uv -n "__fish_uv_using_subcommand remove" -l exclude-newer -d 'Limit candidate packages to those that were uploaded prior to the given date' -r -f
 complete -c uv -n "__fish_uv_using_subcommand remove" -l exclude-newer-package -d 'Limit candidate packages for specific packages to those that were uploaded prior to the given date' -r -f
-complete -c uv -n "__fish_uv_using_subcommand remove" -l link-mode -d 'The method to use when installing packages from the global cache' -r -f -a "clone\t'Clone (i.e., copy-on-write) packages from the wheel into the `site-packages` directory'
-copy\t'Copy packages from the wheel into the `site-packages` directory'
-hardlink\t'Hard link packages from the wheel into the `site-packages` directory'
-symlink\t'Symbolically link packages from the wheel into the `site-packages` directory'"
+complete -c uv -n "__fish_uv_using_subcommand remove" -l link-mode -d 'The method to use when installing packages from the global cache' -r -f -a "clone\t'Clone (i.e., copy-on-write) packages from the source into the destination'
+copy\t'Copy packages from the source into the destination'
+hardlink\t'Hard link packages from the source into the destination'
+symlink\t'Symbolically link packages from the source into the destination'"
 complete -c uv -n "__fish_uv_using_subcommand remove" -l no-sources-package -d 'Don\'t use sources from the `tool.uv.sources` table for the specified packages' -r
 complete -c uv -n "__fish_uv_using_subcommand remove" -l no-build-package -d 'Don\'t build source distributions for a specific package' -r -f
 complete -c uv -n "__fish_uv_using_subcommand remove" -l no-binary-package -d 'Don\'t install pre-built wheels for a specific package' -r -f
@@ -763,8 +787,10 @@ complete -c uv -n "__fish_uv_using_subcommand remove" -l no-python-downloads -d 
 complete -c uv -n "__fish_uv_using_subcommand remove" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand remove" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand remove" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand remove" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand remove" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand remove" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand remove" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand remove" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand remove" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand remove" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand remove" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -792,6 +818,7 @@ complete -c uv -n "__fish_uv_using_subcommand version" -s i -l index-url -d '(De
 complete -c uv -n "__fish_uv_using_subcommand version" -l extra-index-url -d '(Deprecated: use `--index` instead) Extra URLs of package indexes to use, in addition to `--index-url`' -r
 complete -c uv -n "__fish_uv_using_subcommand version" -s f -l find-links -d 'Locations to search for candidate distributions, in addition to those found in the registry indexes' -r
 complete -c uv -n "__fish_uv_using_subcommand version" -s P -l upgrade-package -d 'Allow upgrades for a specific package, ignoring pinned versions in any existing output file. Implies `--refresh-package`' -r -f
+complete -c uv -n "__fish_uv_using_subcommand version" -l upgrade-group -d 'Allow upgrades for all packages in a dependency group, ignoring pinned versions in any existing output file' -r
 complete -c uv -n "__fish_uv_using_subcommand version" -l reinstall-package -d 'Reinstall a specific package, regardless of whether it\'s already installed. Implies `--refresh-package`' -r -f
 complete -c uv -n "__fish_uv_using_subcommand version" -l index-strategy -d 'The strategy to use when resolving against multiple index URLs' -r -f -a "first-index\t'Only use results from the first index that returns a match for a given package name'
 unsafe-first-match\t'Search for every package name across all indexes, exhausting the versions from the first index before moving on to the next'
@@ -813,10 +840,10 @@ complete -c uv -n "__fish_uv_using_subcommand version" -l config-settings-packag
 complete -c uv -n "__fish_uv_using_subcommand version" -l no-build-isolation-package -d 'Disable isolation when building source distributions for a specific package' -r -f
 complete -c uv -n "__fish_uv_using_subcommand version" -l exclude-newer -d 'Limit candidate packages to those that were uploaded prior to the given date' -r -f
 complete -c uv -n "__fish_uv_using_subcommand version" -l exclude-newer-package -d 'Limit candidate packages for specific packages to those that were uploaded prior to the given date' -r -f
-complete -c uv -n "__fish_uv_using_subcommand version" -l link-mode -d 'The method to use when installing packages from the global cache' -r -f -a "clone\t'Clone (i.e., copy-on-write) packages from the wheel into the `site-packages` directory'
-copy\t'Copy packages from the wheel into the `site-packages` directory'
-hardlink\t'Hard link packages from the wheel into the `site-packages` directory'
-symlink\t'Symbolically link packages from the wheel into the `site-packages` directory'"
+complete -c uv -n "__fish_uv_using_subcommand version" -l link-mode -d 'The method to use when installing packages from the global cache' -r -f -a "clone\t'Clone (i.e., copy-on-write) packages from the source into the destination'
+copy\t'Copy packages from the source into the destination'
+hardlink\t'Hard link packages from the source into the destination'
+symlink\t'Symbolically link packages from the source into the destination'"
 complete -c uv -n "__fish_uv_using_subcommand version" -l no-sources-package -d 'Don\'t use sources from the `tool.uv.sources` table for the specified packages' -r
 complete -c uv -n "__fish_uv_using_subcommand version" -l no-build-package -d 'Don\'t build source distributions for a specific package' -r -f
 complete -c uv -n "__fish_uv_using_subcommand version" -l no-binary-package -d 'Don\'t install pre-built wheels for a specific package' -r -f
@@ -871,8 +898,10 @@ complete -c uv -n "__fish_uv_using_subcommand version" -l no-python-downloads -d
 complete -c uv -n "__fish_uv_using_subcommand version" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand version" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand version" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand version" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand version" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand version" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand version" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand version" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand version" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand version" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand version" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -898,6 +927,7 @@ complete -c uv -n "__fish_uv_using_subcommand sync" -s i -l index-url -d '(Depre
 complete -c uv -n "__fish_uv_using_subcommand sync" -l extra-index-url -d '(Deprecated: use `--index` instead) Extra URLs of package indexes to use, in addition to `--index-url`' -r
 complete -c uv -n "__fish_uv_using_subcommand sync" -s f -l find-links -d 'Locations to search for candidate distributions, in addition to those found in the registry indexes' -r
 complete -c uv -n "__fish_uv_using_subcommand sync" -s P -l upgrade-package -d 'Allow upgrades for a specific package, ignoring pinned versions in any existing output file. Implies `--refresh-package`' -r -f
+complete -c uv -n "__fish_uv_using_subcommand sync" -l upgrade-group -d 'Allow upgrades for all packages in a dependency group, ignoring pinned versions in any existing output file' -r
 complete -c uv -n "__fish_uv_using_subcommand sync" -l reinstall-package -d 'Reinstall a specific package, regardless of whether it\'s already installed. Implies `--refresh-package`' -r -f
 complete -c uv -n "__fish_uv_using_subcommand sync" -l index-strategy -d 'The strategy to use when resolving against multiple index URLs' -r -f -a "first-index\t'Only use results from the first index that returns a match for a given package name'
 unsafe-first-match\t'Search for every package name across all indexes, exhausting the versions from the first index before moving on to the next'
@@ -919,10 +949,10 @@ complete -c uv -n "__fish_uv_using_subcommand sync" -l config-settings-package -
 complete -c uv -n "__fish_uv_using_subcommand sync" -l no-build-isolation-package -d 'Disable isolation when building source distributions for a specific package' -r -f
 complete -c uv -n "__fish_uv_using_subcommand sync" -l exclude-newer -d 'Limit candidate packages to those that were uploaded prior to the given date' -r -f
 complete -c uv -n "__fish_uv_using_subcommand sync" -l exclude-newer-package -d 'Limit candidate packages for specific packages to those that were uploaded prior to the given date' -r -f
-complete -c uv -n "__fish_uv_using_subcommand sync" -l link-mode -d 'The method to use when installing packages from the global cache' -r -f -a "clone\t'Clone (i.e., copy-on-write) packages from the wheel into the `site-packages` directory'
-copy\t'Copy packages from the wheel into the `site-packages` directory'
-hardlink\t'Hard link packages from the wheel into the `site-packages` directory'
-symlink\t'Symbolically link packages from the wheel into the `site-packages` directory'"
+complete -c uv -n "__fish_uv_using_subcommand sync" -l link-mode -d 'The method to use when installing packages from the global cache' -r -f -a "clone\t'Clone (i.e., copy-on-write) packages from the source into the destination'
+copy\t'Copy packages from the source into the destination'
+hardlink\t'Hard link packages from the source into the destination'
+symlink\t'Symbolically link packages from the source into the destination'"
 complete -c uv -n "__fish_uv_using_subcommand sync" -l no-sources-package -d 'Don\'t use sources from the `tool.uv.sources` table for the specified packages' -r
 complete -c uv -n "__fish_uv_using_subcommand sync" -l no-build-package -d 'Don\'t build source distributions for a specific package' -r -f
 complete -c uv -n "__fish_uv_using_subcommand sync" -l no-binary-package -d 'Don\'t install pre-built wheels for a specific package' -r -f
@@ -1041,8 +1071,10 @@ complete -c uv -n "__fish_uv_using_subcommand sync" -l no-python-downloads -d 'D
 complete -c uv -n "__fish_uv_using_subcommand sync" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand sync" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand sync" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand sync" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand sync" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand sync" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand sync" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand sync" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand sync" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand sync" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand sync" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -1060,6 +1092,7 @@ complete -c uv -n "__fish_uv_using_subcommand lock" -s i -l index-url -d '(Depre
 complete -c uv -n "__fish_uv_using_subcommand lock" -l extra-index-url -d '(Deprecated: use `--index` instead) Extra URLs of package indexes to use, in addition to `--index-url`' -r
 complete -c uv -n "__fish_uv_using_subcommand lock" -s f -l find-links -d 'Locations to search for candidate distributions, in addition to those found in the registry indexes' -r
 complete -c uv -n "__fish_uv_using_subcommand lock" -s P -l upgrade-package -d 'Allow upgrades for a specific package, ignoring pinned versions in any existing output file. Implies `--refresh-package`' -r
+complete -c uv -n "__fish_uv_using_subcommand lock" -l upgrade-group -d 'Allow upgrades for all packages in a dependency group, ignoring pinned versions in any existing output file' -r
 complete -c uv -n "__fish_uv_using_subcommand lock" -l index-strategy -d 'The strategy to use when resolving against multiple index URLs' -r -f -a "first-index\t'Only use results from the first index that returns a match for a given package name'
 unsafe-first-match\t'Search for every package name across all indexes, exhausting the versions from the first index before moving on to the next'
 unsafe-best-match\t'Search for every package name across all indexes, preferring the "best" version found. If a package version is in multiple indexes, only look at the entry for the first index'"
@@ -1080,10 +1113,10 @@ complete -c uv -n "__fish_uv_using_subcommand lock" -l config-settings-package -
 complete -c uv -n "__fish_uv_using_subcommand lock" -l no-build-isolation-package -d 'Disable isolation when building source distributions for a specific package' -r -f
 complete -c uv -n "__fish_uv_using_subcommand lock" -l exclude-newer -d 'Limit candidate packages to those that were uploaded prior to the given date' -r
 complete -c uv -n "__fish_uv_using_subcommand lock" -l exclude-newer-package -d 'Limit candidate packages for specific packages to those that were uploaded prior to the given date' -r
-complete -c uv -n "__fish_uv_using_subcommand lock" -l link-mode -d 'The method to use when installing packages from the global cache' -r -f -a "clone\t'Clone (i.e., copy-on-write) packages from the wheel into the `site-packages` directory'
-copy\t'Copy packages from the wheel into the `site-packages` directory'
-hardlink\t'Hard link packages from the wheel into the `site-packages` directory'
-symlink\t'Symbolically link packages from the wheel into the `site-packages` directory'"
+complete -c uv -n "__fish_uv_using_subcommand lock" -l link-mode -d 'The method to use when installing packages from the global cache' -r -f -a "clone\t'Clone (i.e., copy-on-write) packages from the source into the destination'
+copy\t'Copy packages from the source into the destination'
+hardlink\t'Hard link packages from the source into the destination'
+symlink\t'Symbolically link packages from the source into the destination'"
 complete -c uv -n "__fish_uv_using_subcommand lock" -l no-sources-package -d 'Don\'t use sources from the `tool.uv.sources` table for the specified packages' -r
 complete -c uv -n "__fish_uv_using_subcommand lock" -l no-build-package -d 'Don\'t build source distributions for a specific package' -r -f
 complete -c uv -n "__fish_uv_using_subcommand lock" -l no-binary-package -d 'Don\'t install pre-built wheels for a specific package' -r -f
@@ -1130,8 +1163,10 @@ complete -c uv -n "__fish_uv_using_subcommand lock" -l no-python-downloads -d 'D
 complete -c uv -n "__fish_uv_using_subcommand lock" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand lock" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand lock" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand lock" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand lock" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand lock" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand lock" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand lock" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand lock" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand lock" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand lock" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -1161,6 +1196,7 @@ complete -c uv -n "__fish_uv_using_subcommand export" -s i -l index-url -d '(Dep
 complete -c uv -n "__fish_uv_using_subcommand export" -l extra-index-url -d '(Deprecated: use `--index` instead) Extra URLs of package indexes to use, in addition to `--index-url`' -r
 complete -c uv -n "__fish_uv_using_subcommand export" -s f -l find-links -d 'Locations to search for candidate distributions, in addition to those found in the registry indexes' -r
 complete -c uv -n "__fish_uv_using_subcommand export" -s P -l upgrade-package -d 'Allow upgrades for a specific package, ignoring pinned versions in any existing output file. Implies `--refresh-package`' -r
+complete -c uv -n "__fish_uv_using_subcommand export" -l upgrade-group -d 'Allow upgrades for all packages in a dependency group, ignoring pinned versions in any existing output file' -r
 complete -c uv -n "__fish_uv_using_subcommand export" -l index-strategy -d 'The strategy to use when resolving against multiple index URLs' -r -f -a "first-index\t'Only use results from the first index that returns a match for a given package name'
 unsafe-first-match\t'Search for every package name across all indexes, exhausting the versions from the first index before moving on to the next'
 unsafe-best-match\t'Search for every package name across all indexes, preferring the "best" version found. If a package version is in multiple indexes, only look at the entry for the first index'"
@@ -1181,10 +1217,10 @@ complete -c uv -n "__fish_uv_using_subcommand export" -l config-settings-package
 complete -c uv -n "__fish_uv_using_subcommand export" -l no-build-isolation-package -d 'Disable isolation when building source distributions for a specific package' -r -f
 complete -c uv -n "__fish_uv_using_subcommand export" -l exclude-newer -d 'Limit candidate packages to those that were uploaded prior to the given date' -r
 complete -c uv -n "__fish_uv_using_subcommand export" -l exclude-newer-package -d 'Limit candidate packages for specific packages to those that were uploaded prior to the given date' -r
-complete -c uv -n "__fish_uv_using_subcommand export" -l link-mode -d 'The method to use when installing packages from the global cache' -r -f -a "clone\t'Clone (i.e., copy-on-write) packages from the wheel into the `site-packages` directory'
-copy\t'Copy packages from the wheel into the `site-packages` directory'
-hardlink\t'Hard link packages from the wheel into the `site-packages` directory'
-symlink\t'Symbolically link packages from the wheel into the `site-packages` directory'"
+complete -c uv -n "__fish_uv_using_subcommand export" -l link-mode -d 'The method to use when installing packages from the global cache' -r -f -a "clone\t'Clone (i.e., copy-on-write) packages from the source into the destination'
+copy\t'Copy packages from the source into the destination'
+hardlink\t'Hard link packages from the source into the destination'
+symlink\t'Symbolically link packages from the source into the destination'"
 complete -c uv -n "__fish_uv_using_subcommand export" -l no-sources-package -d 'Don\'t use sources from the `tool.uv.sources` table for the specified packages' -r
 complete -c uv -n "__fish_uv_using_subcommand export" -l no-build-package -d 'Don\'t build source distributions for a specific package' -r -f
 complete -c uv -n "__fish_uv_using_subcommand export" -l no-binary-package -d 'Don\'t install pre-built wheels for a specific package' -r -f
@@ -1252,8 +1288,10 @@ complete -c uv -n "__fish_uv_using_subcommand export" -l no-python-downloads -d 
 complete -c uv -n "__fish_uv_using_subcommand export" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand export" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand export" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand export" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand export" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand export" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand export" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand export" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand export" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand export" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand export" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -1278,6 +1316,7 @@ complete -c uv -n "__fish_uv_using_subcommand tree" -s i -l index-url -d '(Depre
 complete -c uv -n "__fish_uv_using_subcommand tree" -l extra-index-url -d '(Deprecated: use `--index` instead) Extra URLs of package indexes to use, in addition to `--index-url`' -r
 complete -c uv -n "__fish_uv_using_subcommand tree" -s f -l find-links -d 'Locations to search for candidate distributions, in addition to those found in the registry indexes' -r
 complete -c uv -n "__fish_uv_using_subcommand tree" -s P -l upgrade-package -d 'Allow upgrades for a specific package, ignoring pinned versions in any existing output file. Implies `--refresh-package`' -r
+complete -c uv -n "__fish_uv_using_subcommand tree" -l upgrade-group -d 'Allow upgrades for all packages in a dependency group, ignoring pinned versions in any existing output file' -r
 complete -c uv -n "__fish_uv_using_subcommand tree" -l index-strategy -d 'The strategy to use when resolving against multiple index URLs' -r -f -a "first-index\t'Only use results from the first index that returns a match for a given package name'
 unsafe-first-match\t'Search for every package name across all indexes, exhausting the versions from the first index before moving on to the next'
 unsafe-best-match\t'Search for every package name across all indexes, preferring the "best" version found. If a package version is in multiple indexes, only look at the entry for the first index'"
@@ -1298,10 +1337,10 @@ complete -c uv -n "__fish_uv_using_subcommand tree" -l config-settings-package -
 complete -c uv -n "__fish_uv_using_subcommand tree" -l no-build-isolation-package -d 'Disable isolation when building source distributions for a specific package' -r -f
 complete -c uv -n "__fish_uv_using_subcommand tree" -l exclude-newer -d 'Limit candidate packages to those that were uploaded prior to the given date' -r
 complete -c uv -n "__fish_uv_using_subcommand tree" -l exclude-newer-package -d 'Limit candidate packages for specific packages to those that were uploaded prior to the given date' -r
-complete -c uv -n "__fish_uv_using_subcommand tree" -l link-mode -d 'The method to use when installing packages from the global cache' -r -f -a "clone\t'Clone (i.e., copy-on-write) packages from the wheel into the `site-packages` directory'
-copy\t'Copy packages from the wheel into the `site-packages` directory'
-hardlink\t'Hard link packages from the wheel into the `site-packages` directory'
-symlink\t'Symbolically link packages from the wheel into the `site-packages` directory'"
+complete -c uv -n "__fish_uv_using_subcommand tree" -l link-mode -d 'The method to use when installing packages from the global cache' -r -f -a "clone\t'Clone (i.e., copy-on-write) packages from the source into the destination'
+copy\t'Copy packages from the source into the destination'
+hardlink\t'Hard link packages from the source into the destination'
+symlink\t'Symbolically link packages from the source into the destination'"
 complete -c uv -n "__fish_uv_using_subcommand tree" -l no-sources-package -d 'Don\'t use sources from the `tool.uv.sources` table for the specified packages' -r
 complete -c uv -n "__fish_uv_using_subcommand tree" -l script -d 'Show the dependency tree the specified PEP 723 Python script, rather than the current project' -r -F
 complete -c uv -n "__fish_uv_using_subcommand tree" -l python-version -d 'The Python version to use when filtering the tree' -r
@@ -1398,8 +1437,10 @@ complete -c uv -n "__fish_uv_using_subcommand tree" -l no-python-downloads -d 'D
 complete -c uv -n "__fish_uv_using_subcommand tree" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand tree" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand tree" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand tree" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand tree" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand tree" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand tree" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand tree" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand tree" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand tree" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand tree" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -1411,6 +1452,7 @@ complete -c uv -n "__fish_uv_using_subcommand tree" -l no-installer-metadata -d 
 complete -c uv -n "__fish_uv_using_subcommand tree" -l no-config -d 'Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)'
 complete -c uv -n "__fish_uv_using_subcommand tree" -s h -l help -d 'Display the concise help for this command'
 complete -c uv -n "__fish_uv_using_subcommand format" -l version -d 'The version of Ruff to use for formatting' -r -f
+complete -c uv -n "__fish_uv_using_subcommand format" -l exclude-newer -d 'Limit candidate Ruff versions to those released prior to the given date' -r
 complete -c uv -n "__fish_uv_using_subcommand format" -l cache-dir -d 'Path to the cache directory' -r -f -a "(__fish_complete_directories)"
 complete -c uv -n "__fish_uv_using_subcommand format" -l python-preference -r -f -a "only-managed\t'Only use managed Python installations; never use system Python installations'
 managed\t'Prefer managed Python installations over system Python installations'
@@ -1430,6 +1472,7 @@ complete -c uv -n "__fish_uv_using_subcommand format" -l config-file -d 'The pat
 complete -c uv -n "__fish_uv_using_subcommand format" -l check -d 'Check if files are formatted without applying changes'
 complete -c uv -n "__fish_uv_using_subcommand format" -l diff -d 'Show a diff of formatting changes without applying them'
 complete -c uv -n "__fish_uv_using_subcommand format" -l no-project -d 'Avoid discovering a project or workspace'
+complete -c uv -n "__fish_uv_using_subcommand format" -l show-version -d 'Display the version of Ruff that will be used for formatting'
 complete -c uv -n "__fish_uv_using_subcommand format" -s n -l no-cache -d 'Avoid reading from or writing to the cache, instead using a temporary directory for the duration of the operation'
 complete -c uv -n "__fish_uv_using_subcommand format" -l managed-python -d 'Require use of uv-managed Python versions [env: UV_MANAGED_PYTHON=]'
 complete -c uv -n "__fish_uv_using_subcommand format" -l no-managed-python -d 'Disable use of uv-managed Python versions [env: UV_NO_MANAGED_PYTHON=]'
@@ -1438,8 +1481,10 @@ complete -c uv -n "__fish_uv_using_subcommand format" -l no-python-downloads -d 
 complete -c uv -n "__fish_uv_using_subcommand format" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand format" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand format" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand format" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand format" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand format" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand format" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand format" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand format" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand format" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand format" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -1450,6 +1495,148 @@ complete -c uv -n "__fish_uv_using_subcommand format" -l no-progress -d 'Hide al
 complete -c uv -n "__fish_uv_using_subcommand format" -l no-installer-metadata -d 'Skip writing `uv` installer metadata files (e.g., `INSTALLER`, `REQUESTED`, and `direct_url.json`) to site-packages `.dist-info` directories [env: UV_NO_INSTALLER_METADATA=]'
 complete -c uv -n "__fish_uv_using_subcommand format" -l no-config -d 'Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)'
 complete -c uv -n "__fish_uv_using_subcommand format" -s h -l help -d 'Display the concise help for this command'
+complete -c uv -n "__fish_uv_using_subcommand audit" -l no-extra -d 'Don\'t audit the specified optional dependencies' -r -f
+complete -c uv -n "__fish_uv_using_subcommand audit" -l no-group -d 'Don\'t audit the specified dependency group' -r -f
+complete -c uv -n "__fish_uv_using_subcommand audit" -l only-group -d 'Only audit dependencies from the specified dependency group' -r -f
+complete -c uv -n "__fish_uv_using_subcommand audit" -l no-build-package -d 'Don\'t build source distributions for a specific package' -r -f
+complete -c uv -n "__fish_uv_using_subcommand audit" -l no-binary-package -d 'Don\'t install pre-built wheels for a specific package' -r -f
+complete -c uv -n "__fish_uv_using_subcommand audit" -l index -d 'The URLs to use when resolving dependencies, in addition to the default index' -r
+complete -c uv -n "__fish_uv_using_subcommand audit" -l default-index -d 'The URL of the default package index (by default: <https://pypi.org/simple>)' -r
+complete -c uv -n "__fish_uv_using_subcommand audit" -s i -l index-url -d '(Deprecated: use `--default-index` instead) The URL of the Python package index (by default: <https://pypi.org/simple>)' -r
+complete -c uv -n "__fish_uv_using_subcommand audit" -l extra-index-url -d '(Deprecated: use `--index` instead) Extra URLs of package indexes to use, in addition to `--index-url`' -r
+complete -c uv -n "__fish_uv_using_subcommand audit" -s f -l find-links -d 'Locations to search for candidate distributions, in addition to those found in the registry indexes' -r
+complete -c uv -n "__fish_uv_using_subcommand audit" -s P -l upgrade-package -d 'Allow upgrades for a specific package, ignoring pinned versions in any existing output file. Implies `--refresh-package`' -r
+complete -c uv -n "__fish_uv_using_subcommand audit" -l upgrade-group -d 'Allow upgrades for all packages in a dependency group, ignoring pinned versions in any existing output file' -r
+complete -c uv -n "__fish_uv_using_subcommand audit" -l index-strategy -d 'The strategy to use when resolving against multiple index URLs' -r -f -a "first-index\t'Only use results from the first index that returns a match for a given package name'
+unsafe-first-match\t'Search for every package name across all indexes, exhausting the versions from the first index before moving on to the next'
+unsafe-best-match\t'Search for every package name across all indexes, preferring the "best" version found. If a package version is in multiple indexes, only look at the entry for the first index'"
+complete -c uv -n "__fish_uv_using_subcommand audit" -l keyring-provider -d 'Attempt to use `keyring` for authentication for index URLs' -r -f -a "disabled\t'Do not use keyring for credential lookup'
+subprocess\t'Use the `keyring` command for credential lookup'"
+complete -c uv -n "__fish_uv_using_subcommand audit" -l resolution -d 'The strategy to use when selecting between the different compatible versions for a given package requirement' -r -f -a "highest\t'Resolve the highest compatible version of each package'
+lowest\t'Resolve the lowest compatible version of each package'
+lowest-direct\t'Resolve the lowest compatible version of any direct dependencies, and the highest compatible version of any transitive dependencies'"
+complete -c uv -n "__fish_uv_using_subcommand audit" -l prerelease -d 'The strategy to use when considering pre-release versions' -r -f -a "disallow\t'Disallow all pre-release versions'
+allow\t'Allow all pre-release versions'
+if-necessary\t'Allow pre-release versions if all versions of a package are pre-release'
+explicit\t'Allow pre-release versions for first-party packages with explicit pre-release markers in their version requirements'
+if-necessary-or-explicit\t'Allow pre-release versions if all versions of a package are pre-release, or if the package has an explicit pre-release marker in its version requirements'"
+complete -c uv -n "__fish_uv_using_subcommand audit" -l fork-strategy -d 'The strategy to use when selecting multiple versions of a given package across Python versions and platforms' -r -f -a "fewest\t'Optimize for selecting the fewest number of versions for each package. Older versions may be preferred if they are compatible with a wider range of supported Python versions or platforms'
+requires-python\t'Optimize for selecting latest supported version of each package, for each supported Python version'"
+complete -c uv -n "__fish_uv_using_subcommand audit" -s C -l config-setting -d 'Settings to pass to the PEP 517 build backend, specified as `KEY=VALUE` pairs' -r
+complete -c uv -n "__fish_uv_using_subcommand audit" -l config-settings-package -d 'Settings to pass to the PEP 517 build backend for a specific package, specified as `PACKAGE:KEY=VALUE` pairs' -r
+complete -c uv -n "__fish_uv_using_subcommand audit" -l no-build-isolation-package -d 'Disable isolation when building source distributions for a specific package' -r -f
+complete -c uv -n "__fish_uv_using_subcommand audit" -l exclude-newer -d 'Limit candidate packages to those that were uploaded prior to the given date' -r
+complete -c uv -n "__fish_uv_using_subcommand audit" -l exclude-newer-package -d 'Limit candidate packages for specific packages to those that were uploaded prior to the given date' -r
+complete -c uv -n "__fish_uv_using_subcommand audit" -l link-mode -d 'The method to use when installing packages from the global cache' -r -f -a "clone\t'Clone (i.e., copy-on-write) packages from the source into the destination'
+copy\t'Copy packages from the source into the destination'
+hardlink\t'Hard link packages from the source into the destination'
+symlink\t'Symbolically link packages from the source into the destination'"
+complete -c uv -n "__fish_uv_using_subcommand audit" -l no-sources-package -d 'Don\'t use sources from the `tool.uv.sources` table for the specified packages' -r
+complete -c uv -n "__fish_uv_using_subcommand audit" -l script -d 'Audit the specified PEP 723 Python script, rather than the current project' -r -F
+complete -c uv -n "__fish_uv_using_subcommand audit" -l python-version -d 'The Python version to use when auditing' -r
+complete -c uv -n "__fish_uv_using_subcommand audit" -l python-platform -d 'The platform to use when auditing' -r -f -a "windows\t'An alias for `x86_64-pc-windows-msvc`, the default target for Windows'
+linux\t'An alias for `x86_64-unknown-linux-gnu`, the default target for Linux'
+macos\t'An alias for `aarch64-apple-darwin`, the default target for macOS'
+x86_64-pc-windows-msvc\t'A 64-bit x86 Windows target'
+aarch64-pc-windows-msvc\t'An ARM64 Windows target'
+i686-pc-windows-msvc\t'A 32-bit x86 Windows target'
+x86_64-unknown-linux-gnu\t'An x86 Linux target. Equivalent to `x86_64-manylinux_2_28`'
+aarch64-apple-darwin\t'An ARM-based macOS target, as seen on Apple Silicon devices'
+x86_64-apple-darwin\t'An x86 macOS target'
+aarch64-unknown-linux-gnu\t'An ARM64 Linux target. Equivalent to `aarch64-manylinux_2_28`'
+aarch64-unknown-linux-musl\t'An ARM64 Linux target'
+x86_64-unknown-linux-musl\t'An `x86_64` Linux target'
+riscv64-unknown-linux\t'A RISCV64 Linux target'
+x86_64-manylinux2014\t'An `x86_64` target for the `manylinux2014` platform. Equivalent to `x86_64-manylinux_2_17`'
+x86_64-manylinux_2_17\t'An `x86_64` target for the `manylinux_2_17` platform'
+x86_64-manylinux_2_28\t'An `x86_64` target for the `manylinux_2_28` platform'
+x86_64-manylinux_2_31\t'An `x86_64` target for the `manylinux_2_31` platform'
+x86_64-manylinux_2_32\t'An `x86_64` target for the `manylinux_2_32` platform'
+x86_64-manylinux_2_33\t'An `x86_64` target for the `manylinux_2_33` platform'
+x86_64-manylinux_2_34\t'An `x86_64` target for the `manylinux_2_34` platform'
+x86_64-manylinux_2_35\t'An `x86_64` target for the `manylinux_2_35` platform'
+x86_64-manylinux_2_36\t'An `x86_64` target for the `manylinux_2_36` platform'
+x86_64-manylinux_2_37\t'An `x86_64` target for the `manylinux_2_37` platform'
+x86_64-manylinux_2_38\t'An `x86_64` target for the `manylinux_2_38` platform'
+x86_64-manylinux_2_39\t'An `x86_64` target for the `manylinux_2_39` platform'
+x86_64-manylinux_2_40\t'An `x86_64` target for the `manylinux_2_40` platform'
+aarch64-manylinux2014\t'An ARM64 target for the `manylinux2014` platform. Equivalent to `aarch64-manylinux_2_17`'
+aarch64-manylinux_2_17\t'An ARM64 target for the `manylinux_2_17` platform'
+aarch64-manylinux_2_28\t'An ARM64 target for the `manylinux_2_28` platform'
+aarch64-manylinux_2_31\t'An ARM64 target for the `manylinux_2_31` platform'
+aarch64-manylinux_2_32\t'An ARM64 target for the `manylinux_2_32` platform'
+aarch64-manylinux_2_33\t'An ARM64 target for the `manylinux_2_33` platform'
+aarch64-manylinux_2_34\t'An ARM64 target for the `manylinux_2_34` platform'
+aarch64-manylinux_2_35\t'An ARM64 target for the `manylinux_2_35` platform'
+aarch64-manylinux_2_36\t'An ARM64 target for the `manylinux_2_36` platform'
+aarch64-manylinux_2_37\t'An ARM64 target for the `manylinux_2_37` platform'
+aarch64-manylinux_2_38\t'An ARM64 target for the `manylinux_2_38` platform'
+aarch64-manylinux_2_39\t'An ARM64 target for the `manylinux_2_39` platform'
+aarch64-manylinux_2_40\t'An ARM64 target for the `manylinux_2_40` platform'
+aarch64-linux-android\t'An ARM64 Android target'
+x86_64-linux-android\t'An `x86_64` Android target'
+wasm32-pyodide2024\t'A wasm32 target using the Pyodide 2024 platform. Meant for use with Python 3.12'
+arm64-apple-ios\t'An ARM64 target for iOS device'
+arm64-apple-ios-simulator\t'An ARM64 target for iOS simulator'
+x86_64-apple-ios-simulator\t'An `x86_64` target for iOS simulator'"
+complete -c uv -n "__fish_uv_using_subcommand audit" -l ignore -d 'Ignore a vulnerability by ID' -r
+complete -c uv -n "__fish_uv_using_subcommand audit" -l ignore-until-fixed -d 'Ignore a vulnerability by ID, but only while no fix is available' -r
+complete -c uv -n "__fish_uv_using_subcommand audit" -l service-format -d 'The service format to use for vulnerability lookups' -r -f -a "osv\t''"
+complete -c uv -n "__fish_uv_using_subcommand audit" -l service-url -d 'The URL to vulnerability service API endpoint' -r -f
+complete -c uv -n "__fish_uv_using_subcommand audit" -l cache-dir -d 'Path to the cache directory' -r -f -a "(__fish_complete_directories)"
+complete -c uv -n "__fish_uv_using_subcommand audit" -l python-preference -r -f -a "only-managed\t'Only use managed Python installations; never use system Python installations'
+managed\t'Prefer managed Python installations over system Python installations'
+system\t'Prefer system Python installations over managed Python installations'
+only-system\t'Only use system Python installations; never use managed Python installations'"
+complete -c uv -n "__fish_uv_using_subcommand audit" -l python-fetch -d 'Deprecated version of [`Self::python_downloads`]' -r -f -a "automatic\t'Automatically download managed Python installations when needed'
+manual\t'Do not automatically download managed Python installations; require explicit installation'
+never\t'Do not ever allow Python downloads'"
+complete -c uv -n "__fish_uv_using_subcommand audit" -l color -d 'Control the use of color in output' -r -f -a "auto\t'Enables colored output only when the output is going to a terminal or TTY with support'
+always\t'Enables colored output regardless of the detected environment'
+never\t'Disables colored output'"
+complete -c uv -n "__fish_uv_using_subcommand audit" -l allow-insecure-host -d 'Allow insecure connections to a host' -r -f
+complete -c uv -n "__fish_uv_using_subcommand audit" -l preview-features -d 'Enable experimental preview features' -r
+complete -c uv -n "__fish_uv_using_subcommand audit" -l directory -d 'Change to the given directory prior to running the command' -r -f -a "(__fish_complete_directories)"
+complete -c uv -n "__fish_uv_using_subcommand audit" -l project -d 'Discover a project in the given directory' -r -f -a "(__fish_complete_directories)"
+complete -c uv -n "__fish_uv_using_subcommand audit" -l config-file -d 'The path to a `uv.toml` file to use for configuration' -r -F
+complete -c uv -n "__fish_uv_using_subcommand audit" -l no-dev -d 'Don\'t audit the development dependency group [env: UV_NO_DEV=]'
+complete -c uv -n "__fish_uv_using_subcommand audit" -l no-default-groups -d 'Don\'t audit the default dependency groups'
+complete -c uv -n "__fish_uv_using_subcommand audit" -l only-dev -d 'Only audit the development dependency group'
+complete -c uv -n "__fish_uv_using_subcommand audit" -l locked -d 'Assert that the `uv.lock` will remain unchanged [env: UV_LOCKED=]'
+complete -c uv -n "__fish_uv_using_subcommand audit" -l frozen -d 'Audit the requirements without locking the project [env: UV_FROZEN=]'
+complete -c uv -n "__fish_uv_using_subcommand audit" -l no-build -d 'Don\'t build source distributions'
+complete -c uv -n "__fish_uv_using_subcommand audit" -l build
+complete -c uv -n "__fish_uv_using_subcommand audit" -l no-binary -d 'Don\'t install pre-built wheels'
+complete -c uv -n "__fish_uv_using_subcommand audit" -l binary
+complete -c uv -n "__fish_uv_using_subcommand audit" -l no-index -d 'Ignore the registry index (e.g., PyPI), instead relying on direct URL dependencies and those provided via `--find-links`'
+complete -c uv -n "__fish_uv_using_subcommand audit" -s U -l upgrade -d 'Allow package upgrades, ignoring pinned versions in any existing output file. Implies `--refresh`'
+complete -c uv -n "__fish_uv_using_subcommand audit" -l no-upgrade
+complete -c uv -n "__fish_uv_using_subcommand audit" -l pre
+complete -c uv -n "__fish_uv_using_subcommand audit" -l no-build-isolation -d 'Disable isolation when building source distributions'
+complete -c uv -n "__fish_uv_using_subcommand audit" -l build-isolation
+complete -c uv -n "__fish_uv_using_subcommand audit" -l no-sources -d 'Ignore the `tool.uv.sources` table when resolving dependencies. Used to lock against the standards-compliant, publishable package metadata, as opposed to using any workspace, Git, URL, or local path sources'
+complete -c uv -n "__fish_uv_using_subcommand audit" -s n -l no-cache -d 'Avoid reading from or writing to the cache, instead using a temporary directory for the duration of the operation'
+complete -c uv -n "__fish_uv_using_subcommand audit" -l managed-python -d 'Require use of uv-managed Python versions [env: UV_MANAGED_PYTHON=]'
+complete -c uv -n "__fish_uv_using_subcommand audit" -l no-managed-python -d 'Disable use of uv-managed Python versions [env: UV_NO_MANAGED_PYTHON=]'
+complete -c uv -n "__fish_uv_using_subcommand audit" -l allow-python-downloads -d 'Allow automatically downloading Python when required. [env: "UV_PYTHON_DOWNLOADS=auto"]'
+complete -c uv -n "__fish_uv_using_subcommand audit" -l no-python-downloads -d 'Disable automatic downloads of Python. [env: "UV_PYTHON_DOWNLOADS=never"]'
+complete -c uv -n "__fish_uv_using_subcommand audit" -s q -l quiet -d 'Use quiet output'
+complete -c uv -n "__fish_uv_using_subcommand audit" -s v -l verbose -d 'Use verbose output'
+complete -c uv -n "__fish_uv_using_subcommand audit" -l no-color -d 'Disable colors'
+complete -c uv -n "__fish_uv_using_subcommand audit" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand audit" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand audit" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand audit" -l no-system-certs
+complete -c uv -n "__fish_uv_using_subcommand audit" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
+complete -c uv -n "__fish_uv_using_subcommand audit" -l no-offline
+complete -c uv -n "__fish_uv_using_subcommand audit" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
+complete -c uv -n "__fish_uv_using_subcommand audit" -l no-preview
+complete -c uv -n "__fish_uv_using_subcommand audit" -l isolated -d 'Avoid discovering a `pyproject.toml` or `uv.toml` file [env: UV_ISOLATED=]'
+complete -c uv -n "__fish_uv_using_subcommand audit" -l show-settings -d 'Show the resolved settings for the current command'
+complete -c uv -n "__fish_uv_using_subcommand audit" -l no-progress -d 'Hide all progress outputs [env: UV_NO_PROGRESS=]'
+complete -c uv -n "__fish_uv_using_subcommand audit" -l no-installer-metadata -d 'Skip writing `uv` installer metadata files (e.g., `INSTALLER`, `REQUESTED`, and `direct_url.json`) to site-packages `.dist-info` directories [env: UV_NO_INSTALLER_METADATA=]'
+complete -c uv -n "__fish_uv_using_subcommand audit" -l no-config -d 'Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)'
+complete -c uv -n "__fish_uv_using_subcommand audit" -s h -l help -d 'Display the concise help for this command'
 complete -c uv -n "__fish_uv_using_subcommand tool; and not __fish_seen_subcommand_from run uvx install upgrade list uninstall update-shell dir" -l cache-dir -d 'Path to the cache directory' -r -f -a "(__fish_complete_directories)"
 complete -c uv -n "__fish_uv_using_subcommand tool; and not __fish_seen_subcommand_from run uvx install upgrade list uninstall update-shell dir" -l python-preference -r -f -a "only-managed\t'Only use managed Python installations; never use system Python installations'
 managed\t'Prefer managed Python installations over system Python installations'
@@ -1474,8 +1661,10 @@ complete -c uv -n "__fish_uv_using_subcommand tool; and not __fish_seen_subcomma
 complete -c uv -n "__fish_uv_using_subcommand tool; and not __fish_seen_subcommand_from run uvx install upgrade list uninstall update-shell dir" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand tool; and not __fish_seen_subcommand_from run uvx install upgrade list uninstall update-shell dir" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand tool; and not __fish_seen_subcommand_from run uvx install upgrade list uninstall update-shell dir" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand tool; and not __fish_seen_subcommand_from run uvx install upgrade list uninstall update-shell dir" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand tool; and not __fish_seen_subcommand_from run uvx install upgrade list uninstall update-shell dir" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand tool; and not __fish_seen_subcommand_from run uvx install upgrade list uninstall update-shell dir" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand tool; and not __fish_seen_subcommand_from run uvx install upgrade list uninstall update-shell dir" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand tool; and not __fish_seen_subcommand_from run uvx install upgrade list uninstall update-shell dir" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand tool; and not __fish_seen_subcommand_from run uvx install upgrade list uninstall update-shell dir" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand tool; and not __fish_seen_subcommand_from run uvx install upgrade list uninstall update-shell dir" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand tool; and not __fish_seen_subcommand_from run uvx install upgrade list uninstall update-shell dir" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -1508,6 +1697,7 @@ complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_f
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from run" -l extra-index-url -d '(Deprecated: use `--index` instead) Extra URLs of package indexes to use, in addition to `--index-url`' -r
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from run" -s f -l find-links -d 'Locations to search for candidate distributions, in addition to those found in the registry indexes' -r
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from run" -s P -l upgrade-package -d 'Allow upgrades for a specific package, ignoring pinned versions in any existing output file. Implies `--refresh-package`' -r -f
+complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from run" -l upgrade-group -d 'Allow upgrades for all packages in a dependency group, ignoring pinned versions in any existing output file' -r
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from run" -l reinstall-package -d 'Reinstall a specific package, regardless of whether it\'s already installed. Implies `--refresh-package`' -r -f
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from run" -l index-strategy -d 'The strategy to use when resolving against multiple index URLs' -r -f -a "first-index\t'Only use results from the first index that returns a match for a given package name'
 unsafe-first-match\t'Search for every package name across all indexes, exhausting the versions from the first index before moving on to the next'
@@ -1529,10 +1719,10 @@ complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_f
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from run" -l no-build-isolation-package -d 'Disable isolation when building source distributions for a specific package' -r -f
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from run" -l exclude-newer -d 'Limit candidate packages to those that were uploaded prior to the given date' -r -f
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from run" -l exclude-newer-package -d 'Limit candidate packages for specific packages to those that were uploaded prior to the given date' -r -f
-complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from run" -l link-mode -d 'The method to use when installing packages from the global cache' -r -f -a "clone\t'Clone (i.e., copy-on-write) packages from the wheel into the `site-packages` directory'
-copy\t'Copy packages from the wheel into the `site-packages` directory'
-hardlink\t'Hard link packages from the wheel into the `site-packages` directory'
-symlink\t'Symbolically link packages from the wheel into the `site-packages` directory'"
+complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from run" -l link-mode -d 'The method to use when installing packages from the global cache' -r -f -a "clone\t'Clone (i.e., copy-on-write) packages from the source into the destination'
+copy\t'Copy packages from the source into the destination'
+hardlink\t'Hard link packages from the source into the destination'
+symlink\t'Symbolically link packages from the source into the destination'"
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from run" -l no-sources-package -d 'Don\'t use sources from the `tool.uv.sources` table for the specified packages' -r
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from run" -l no-build-package -d 'Don\'t build source distributions for a specific package' -r -f
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from run" -l no-binary-package -d 'Don\'t install pre-built wheels for a specific package' -r -f
@@ -1611,6 +1801,9 @@ cu92\t'Use the PyTorch index for CUDA 9.2'
 cu91\t'Use the PyTorch index for CUDA 9.1'
 cu90\t'Use the PyTorch index for CUDA 9.0'
 cu80\t'Use the PyTorch index for CUDA 8.0'
+rocm7.2\t'Use the PyTorch index for ROCm 7.2'
+rocm7.1\t'Use the PyTorch index for ROCm 7.1'
+rocm7.0\t'Use the PyTorch index for ROCm 7.0'
 rocm6.4\t'Use the PyTorch index for ROCm 6.4'
 rocm6.3\t'Use the PyTorch index for ROCm 6.3'
 rocm6.2.4\t'Use the PyTorch index for ROCm 6.2.4'
@@ -1680,8 +1873,10 @@ complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_f
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from run" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from run" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from run" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from run" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from run" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from run" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from run" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from run" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from run" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from run" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from run" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -1705,6 +1900,7 @@ complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_f
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from uvx" -l extra-index-url -d '(Deprecated: use `--index` instead) Extra URLs of package indexes to use, in addition to `--index-url`' -r
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from uvx" -s f -l find-links -d 'Locations to search for candidate distributions, in addition to those found in the registry indexes' -r
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from uvx" -s P -l upgrade-package -d 'Allow upgrades for a specific package, ignoring pinned versions in any existing output file. Implies `--refresh-package`' -r -f
+complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from uvx" -l upgrade-group -d 'Allow upgrades for all packages in a dependency group, ignoring pinned versions in any existing output file' -r
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from uvx" -l reinstall-package -d 'Reinstall a specific package, regardless of whether it\'s already installed. Implies `--refresh-package`' -r -f
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from uvx" -l index-strategy -d 'The strategy to use when resolving against multiple index URLs' -r -f -a "first-index\t'Only use results from the first index that returns a match for a given package name'
 unsafe-first-match\t'Search for every package name across all indexes, exhausting the versions from the first index before moving on to the next'
@@ -1726,10 +1922,10 @@ complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_f
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from uvx" -l no-build-isolation-package -d 'Disable isolation when building source distributions for a specific package' -r -f
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from uvx" -l exclude-newer -d 'Limit candidate packages to those that were uploaded prior to the given date' -r -f
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from uvx" -l exclude-newer-package -d 'Limit candidate packages for specific packages to those that were uploaded prior to the given date' -r -f
-complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from uvx" -l link-mode -d 'The method to use when installing packages from the global cache' -r -f -a "clone\t'Clone (i.e., copy-on-write) packages from the wheel into the `site-packages` directory'
-copy\t'Copy packages from the wheel into the `site-packages` directory'
-hardlink\t'Hard link packages from the wheel into the `site-packages` directory'
-symlink\t'Symbolically link packages from the wheel into the `site-packages` directory'"
+complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from uvx" -l link-mode -d 'The method to use when installing packages from the global cache' -r -f -a "clone\t'Clone (i.e., copy-on-write) packages from the source into the destination'
+copy\t'Copy packages from the source into the destination'
+hardlink\t'Hard link packages from the source into the destination'
+symlink\t'Symbolically link packages from the source into the destination'"
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from uvx" -l no-sources-package -d 'Don\'t use sources from the `tool.uv.sources` table for the specified packages' -r
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from uvx" -l no-build-package -d 'Don\'t build source distributions for a specific package' -r -f
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from uvx" -l no-binary-package -d 'Don\'t install pre-built wheels for a specific package' -r -f
@@ -1808,6 +2004,9 @@ cu92\t'Use the PyTorch index for CUDA 9.2'
 cu91\t'Use the PyTorch index for CUDA 9.1'
 cu90\t'Use the PyTorch index for CUDA 9.0'
 cu80\t'Use the PyTorch index for CUDA 8.0'
+rocm7.2\t'Use the PyTorch index for ROCm 7.2'
+rocm7.1\t'Use the PyTorch index for ROCm 7.1'
+rocm7.0\t'Use the PyTorch index for ROCm 7.0'
 rocm6.4\t'Use the PyTorch index for ROCm 6.4'
 rocm6.3\t'Use the PyTorch index for ROCm 6.3'
 rocm6.2.4\t'Use the PyTorch index for ROCm 6.2.4'
@@ -1878,8 +2077,10 @@ complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_f
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from uvx" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from uvx" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from uvx" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from uvx" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from uvx" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from uvx" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from uvx" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from uvx" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from uvx" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from uvx" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from uvx" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -1904,6 +2105,7 @@ complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_f
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from install" -l extra-index-url -d '(Deprecated: use `--index` instead) Extra URLs of package indexes to use, in addition to `--index-url`' -r
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from install" -s f -l find-links -d 'Locations to search for candidate distributions, in addition to those found in the registry indexes' -r
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from install" -s P -l upgrade-package -d 'Allow upgrades for a specific package, ignoring pinned versions in any existing output file. Implies `--refresh-package`' -r -f
+complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from install" -l upgrade-group -d 'Allow upgrades for all packages in a dependency group, ignoring pinned versions in any existing output file' -r
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from install" -l reinstall-package -d 'Reinstall a specific package, regardless of whether it\'s already installed. Implies `--refresh-package`' -r -f
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from install" -l index-strategy -d 'The strategy to use when resolving against multiple index URLs' -r -f -a "first-index\t'Only use results from the first index that returns a match for a given package name'
 unsafe-first-match\t'Search for every package name across all indexes, exhausting the versions from the first index before moving on to the next'
@@ -1925,10 +2127,10 @@ complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_f
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from install" -l no-build-isolation-package -d 'Disable isolation when building source distributions for a specific package' -r -f
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from install" -l exclude-newer -d 'Limit candidate packages to those that were uploaded prior to the given date' -r -f
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from install" -l exclude-newer-package -d 'Limit candidate packages for specific packages to those that were uploaded prior to the given date' -r -f
-complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from install" -l link-mode -d 'The method to use when installing packages from the global cache' -r -f -a "clone\t'Clone (i.e., copy-on-write) packages from the wheel into the `site-packages` directory'
-copy\t'Copy packages from the wheel into the `site-packages` directory'
-hardlink\t'Hard link packages from the wheel into the `site-packages` directory'
-symlink\t'Symbolically link packages from the wheel into the `site-packages` directory'"
+complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from install" -l link-mode -d 'The method to use when installing packages from the global cache' -r -f -a "clone\t'Clone (i.e., copy-on-write) packages from the source into the destination'
+copy\t'Copy packages from the source into the destination'
+hardlink\t'Hard link packages from the source into the destination'
+symlink\t'Symbolically link packages from the source into the destination'"
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from install" -l no-sources-package -d 'Don\'t use sources from the `tool.uv.sources` table for the specified packages' -r
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from install" -l no-build-package -d 'Don\'t build source distributions for a specific package' -r -f
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from install" -l no-binary-package -d 'Don\'t install pre-built wheels for a specific package' -r -f
@@ -2007,6 +2209,9 @@ cu92\t'Use the PyTorch index for CUDA 9.2'
 cu91\t'Use the PyTorch index for CUDA 9.1'
 cu90\t'Use the PyTorch index for CUDA 9.0'
 cu80\t'Use the PyTorch index for CUDA 8.0'
+rocm7.2\t'Use the PyTorch index for ROCm 7.2'
+rocm7.1\t'Use the PyTorch index for ROCm 7.1'
+rocm7.0\t'Use the PyTorch index for ROCm 7.0'
 rocm6.4\t'Use the PyTorch index for ROCm 6.4'
 rocm6.3\t'Use the PyTorch index for ROCm 6.3'
 rocm6.2.4\t'Use the PyTorch index for ROCm 6.2.4'
@@ -2069,8 +2274,10 @@ complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_f
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from install" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from install" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from install" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from install" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from install" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from install" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from install" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from install" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from install" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from install" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from install" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -2128,6 +2335,7 @@ arm64-apple-ios\t'An ARM64 target for iOS device'
 arm64-apple-ios-simulator\t'An ARM64 target for iOS simulator'
 x86_64-apple-ios-simulator\t'An `x86_64` target for iOS simulator'"
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from upgrade" -s P -l upgrade-package -d 'Allow upgrades for a specific package, ignoring pinned versions in any existing output file. Implies `--refresh-package`' -r
+complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from upgrade" -l upgrade-group -d 'Allow upgrades for all packages in a dependency group, ignoring pinned versions in any existing output file' -r
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from upgrade" -l index -d 'The URLs to use when resolving dependencies, in addition to the default index' -r
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from upgrade" -l default-index -d 'The URL of the default package index (by default: <https://pypi.org/simple>)' -r
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from upgrade" -s i -l index-url -d '(Deprecated: use `--default-index` instead) The URL of the Python package index (by default: <https://pypi.org/simple>)' -r
@@ -2154,10 +2362,10 @@ complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_f
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from upgrade" -l no-build-isolation-package -d 'Disable isolation when building source distributions for a specific package' -r -f
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from upgrade" -l exclude-newer -d 'Limit candidate packages to those that were uploaded prior to the given date' -r
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from upgrade" -l exclude-newer-package -d 'Limit candidate packages for specific packages to those that were uploaded prior to the given date' -r
-complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from upgrade" -l link-mode -d 'The method to use when installing packages from the global cache' -r -f -a "clone\t'Clone (i.e., copy-on-write) packages from the wheel into the `site-packages` directory'
-copy\t'Copy packages from the wheel into the `site-packages` directory'
-hardlink\t'Hard link packages from the wheel into the `site-packages` directory'
-symlink\t'Symbolically link packages from the wheel into the `site-packages` directory'"
+complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from upgrade" -l link-mode -d 'The method to use when installing packages from the global cache' -r -f -a "clone\t'Clone (i.e., copy-on-write) packages from the source into the destination'
+copy\t'Copy packages from the source into the destination'
+hardlink\t'Hard link packages from the source into the destination'
+symlink\t'Symbolically link packages from the source into the destination'"
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from upgrade" -l no-sources-package -d 'Don\'t use sources from the `tool.uv.sources` table for the specified packages' -r
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from upgrade" -l no-build-package -d 'Don\'t build source distributions for a specific package' -r -f
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from upgrade" -l no-binary-package -d 'Don\'t install pre-built wheels for a specific package' -r -f
@@ -2200,8 +2408,10 @@ complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_f
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from upgrade" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from upgrade" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from upgrade" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from upgrade" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from upgrade" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from upgrade" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from upgrade" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from upgrade" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from upgrade" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from upgrade" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from upgrade" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -2212,6 +2422,7 @@ complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_f
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from upgrade" -l no-installer-metadata -d 'Skip writing `uv` installer metadata files (e.g., `INSTALLER`, `REQUESTED`, and `direct_url.json`) to site-packages `.dist-info` directories [env: UV_NO_INSTALLER_METADATA=]'
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from upgrade" -l no-config -d 'Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)'
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from upgrade" -s h -l help -d 'Display the concise help for this command'
+complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from list" -l exclude-newer -d 'Limit candidate packages to those that were uploaded prior to the given date' -r
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from list" -l python-preference -r -f -a "only-managed\t'Only use managed Python installations; never use system Python installations'
 managed\t'Prefer managed Python installations over system Python installations'
 system\t'Prefer system Python installations over managed Python installations'
@@ -2233,6 +2444,8 @@ complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_f
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from list" -l show-with -d 'Whether to display the additional requirements installed with each tool'
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from list" -l show-extras -d 'Whether to display the extra requirements installed with each tool'
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from list" -l show-python -d 'Whether to display the Python version associated with each tool'
+complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from list" -l outdated -d 'List outdated tools'
+complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from list" -l no-outdated
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from list" -l no-python-downloads
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from list" -s n -l no-cache -d 'Avoid reading from or writing to the cache, instead using a temporary directory for the duration of the operation'
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from list" -l managed-python -d 'Require use of uv-managed Python versions [env: UV_MANAGED_PYTHON=]'
@@ -2241,8 +2454,10 @@ complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_f
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from list" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from list" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from list" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from list" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from list" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from list" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from list" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from list" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from list" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from list" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from list" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -2278,8 +2493,10 @@ complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_f
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from uninstall" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from uninstall" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from uninstall" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from uninstall" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from uninstall" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from uninstall" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from uninstall" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from uninstall" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from uninstall" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from uninstall" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from uninstall" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -2314,8 +2531,10 @@ complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_f
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from update-shell" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from update-shell" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from update-shell" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from update-shell" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from update-shell" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from update-shell" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from update-shell" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from update-shell" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from update-shell" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from update-shell" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from update-shell" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -2351,8 +2570,10 @@ complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_f
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from dir" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from dir" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from dir" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from dir" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from dir" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from dir" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from dir" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from dir" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from dir" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from dir" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from dir" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -2387,8 +2608,10 @@ complete -c uv -n "__fish_uv_using_subcommand python; and not __fish_seen_subcom
 complete -c uv -n "__fish_uv_using_subcommand python; and not __fish_seen_subcommand_from list install upgrade find pin dir uninstall update-shell" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand python; and not __fish_seen_subcommand_from list install upgrade find pin dir uninstall update-shell" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand python; and not __fish_seen_subcommand_from list install upgrade find pin dir uninstall update-shell" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand python; and not __fish_seen_subcommand_from list install upgrade find pin dir uninstall update-shell" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand python; and not __fish_seen_subcommand_from list install upgrade find pin dir uninstall update-shell" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand python; and not __fish_seen_subcommand_from list install upgrade find pin dir uninstall update-shell" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand python; and not __fish_seen_subcommand_from list install upgrade find pin dir uninstall update-shell" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand python; and not __fish_seen_subcommand_from list install upgrade find pin dir uninstall update-shell" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand python; and not __fish_seen_subcommand_from list install upgrade find pin dir uninstall update-shell" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand python; and not __fish_seen_subcommand_from list install upgrade find pin dir uninstall update-shell" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand python; and not __fish_seen_subcommand_from list install upgrade find pin dir uninstall update-shell" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -2440,8 +2663,10 @@ complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from list" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from list" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from list" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from list" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from list" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from list" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from list" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from list" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from list" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from list" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from list" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -2490,8 +2715,10 @@ complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from install" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from install" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from install" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from install" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from install" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from install" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from install" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from install" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from install" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from install" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from install" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -2533,8 +2760,10 @@ complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from upgrade" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from upgrade" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from upgrade" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from upgrade" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from upgrade" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from upgrade" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from upgrade" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from upgrade" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from upgrade" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from upgrade" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from upgrade" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -2567,6 +2796,7 @@ complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from find" -l system -d 'Only find system Python interpreters'
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from find" -l no-system
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from find" -l show-version -d 'Show the Python version that would be used instead of the path to the interpreter'
+complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from find" -l resolve-links -d 'Resolve symlinks in the output path'
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from find" -s n -l no-cache -d 'Avoid reading from or writing to the cache, instead using a temporary directory for the duration of the operation'
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from find" -l managed-python -d 'Require use of uv-managed Python versions [env: UV_MANAGED_PYTHON=]'
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from find" -l no-managed-python -d 'Disable use of uv-managed Python versions [env: UV_NO_MANAGED_PYTHON=]'
@@ -2575,8 +2805,10 @@ complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from find" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from find" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from find" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from find" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from find" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from find" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from find" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from find" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from find" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from find" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from find" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -2616,8 +2848,10 @@ complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from pin" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from pin" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from pin" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from pin" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from pin" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from pin" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from pin" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from pin" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from pin" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from pin" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from pin" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -2653,8 +2887,10 @@ complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from dir" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from dir" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from dir" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from dir" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from dir" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from dir" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from dir" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from dir" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from dir" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from dir" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from dir" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -2691,8 +2927,10 @@ complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from uninstall" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from uninstall" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from uninstall" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from uninstall" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from uninstall" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from uninstall" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from uninstall" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from uninstall" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from uninstall" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from uninstall" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from uninstall" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -2727,8 +2965,10 @@ complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from update-shell" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from update-shell" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from update-shell" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from update-shell" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from update-shell" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from update-shell" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from update-shell" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from update-shell" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from update-shell" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from update-shell" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from update-shell" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -2763,8 +3003,10 @@ complete -c uv -n "__fish_uv_using_subcommand pip; and not __fish_seen_subcomman
 complete -c uv -n "__fish_uv_using_subcommand pip; and not __fish_seen_subcommand_from compile sync install uninstall freeze list show tree check debug" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand pip; and not __fish_seen_subcommand_from compile sync install uninstall freeze list show tree check debug" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand pip; and not __fish_seen_subcommand_from compile sync install uninstall freeze list show tree check debug" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand pip; and not __fish_seen_subcommand_from compile sync install uninstall freeze list show tree check debug" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand pip; and not __fish_seen_subcommand_from compile sync install uninstall freeze list show tree check debug" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand pip; and not __fish_seen_subcommand_from compile sync install uninstall freeze list show tree check debug" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand pip; and not __fish_seen_subcommand_from compile sync install uninstall freeze list show tree check debug" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand pip; and not __fish_seen_subcommand_from compile sync install uninstall freeze list show tree check debug" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand pip; and not __fish_seen_subcommand_from compile sync install uninstall freeze list show tree check debug" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand pip; and not __fish_seen_subcommand_from compile sync install uninstall freeze list show tree check debug" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand pip; and not __fish_seen_subcommand_from compile sync install uninstall freeze list show tree check debug" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -2797,6 +3039,7 @@ complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_fr
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from compile" -l extra-index-url -d '(Deprecated: use `--index` instead) Extra URLs of package indexes to use, in addition to `--index-url`' -r
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from compile" -s f -l find-links -d 'Locations to search for candidate distributions, in addition to those found in the registry indexes' -r
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from compile" -s P -l upgrade-package -d 'Allow upgrades for a specific package, ignoring pinned versions in any existing output file. Implies `--refresh-package`' -r
+complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from compile" -l upgrade-group -d 'Allow upgrades for all packages in a dependency group, ignoring pinned versions in any existing output file' -r
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from compile" -l index-strategy -d 'The strategy to use when resolving against multiple index URLs' -r -f -a "first-index\t'Only use results from the first index that returns a match for a given package name'
 unsafe-first-match\t'Search for every package name across all indexes, exhausting the versions from the first index before moving on to the next'
 unsafe-best-match\t'Search for every package name across all indexes, preferring the "best" version found. If a package version is in multiple indexes, only look at the entry for the first index'"
@@ -2817,10 +3060,10 @@ complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_fr
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from compile" -l no-build-isolation-package -d 'Disable isolation when building source distributions for a specific package' -r -f
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from compile" -l exclude-newer -d 'Limit candidate packages to those that were uploaded prior to the given date' -r
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from compile" -l exclude-newer-package -d 'Limit candidate packages for specific packages to those that were uploaded prior to the given date' -r
-complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from compile" -l link-mode -d 'The method to use when installing packages from the global cache' -r -f -a "clone\t'Clone (i.e., copy-on-write) packages from the wheel into the `site-packages` directory'
-copy\t'Copy packages from the wheel into the `site-packages` directory'
-hardlink\t'Hard link packages from the wheel into the `site-packages` directory'
-symlink\t'Symbolically link packages from the wheel into the `site-packages` directory'"
+complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from compile" -l link-mode -d 'The method to use when installing packages from the global cache' -r -f -a "clone\t'Clone (i.e., copy-on-write) packages from the source into the destination'
+copy\t'Copy packages from the source into the destination'
+hardlink\t'Hard link packages from the source into the destination'
+symlink\t'Symbolically link packages from the source into the destination'"
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from compile" -l no-sources-package -d 'Don\'t use sources from the `tool.uv.sources` table for the specified packages' -r
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from compile" -l refresh-package -d 'Refresh cached data for a specific package' -r -f
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from compile" -s o -l output-file -d 'Write the compiled requirements to the given `requirements.txt` or `pylock.toml` file' -r -F
@@ -2907,6 +3150,9 @@ cu92\t'Use the PyTorch index for CUDA 9.2'
 cu91\t'Use the PyTorch index for CUDA 9.1'
 cu90\t'Use the PyTorch index for CUDA 9.0'
 cu80\t'Use the PyTorch index for CUDA 8.0'
+rocm7.2\t'Use the PyTorch index for ROCm 7.2'
+rocm7.1\t'Use the PyTorch index for ROCm 7.1'
+rocm7.0\t'Use the PyTorch index for ROCm 7.0'
 rocm6.4\t'Use the PyTorch index for ROCm 6.4'
 rocm6.3\t'Use the PyTorch index for ROCm 6.3'
 rocm6.2.4\t'Use the PyTorch index for ROCm 6.2.4'
@@ -3004,8 +3250,10 @@ complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_fr
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from compile" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from compile" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from compile" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from compile" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from compile" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from compile" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from compile" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from compile" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from compile" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from compile" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from compile" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -3034,14 +3282,14 @@ complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_fr
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from sync" -l config-settings-package -d 'Settings to pass to the PEP 517 build backend for a specific package, specified as `PACKAGE:KEY=VALUE` pairs' -r
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from sync" -l exclude-newer -d 'Limit candidate packages to those that were uploaded prior to the given date' -r
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from sync" -l exclude-newer-package -d 'Limit candidate packages for specific packages to those that were uploaded prior to the given date' -r
-complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from sync" -l link-mode -d 'The method to use when installing packages from the global cache' -r -f -a "clone\t'Clone (i.e., copy-on-write) packages from the wheel into the `site-packages` directory'
-copy\t'Copy packages from the wheel into the `site-packages` directory'
-hardlink\t'Hard link packages from the wheel into the `site-packages` directory'
-symlink\t'Symbolically link packages from the wheel into the `site-packages` directory'"
+complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from sync" -l link-mode -d 'The method to use when installing packages from the global cache' -r -f -a "clone\t'Clone (i.e., copy-on-write) packages from the source into the destination'
+copy\t'Copy packages from the source into the destination'
+hardlink\t'Hard link packages from the source into the destination'
+symlink\t'Symbolically link packages from the source into the destination'"
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from sync" -l no-sources-package -d 'Don\'t use sources from the `tool.uv.sources` table for the specified packages' -r
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from sync" -l refresh-package -d 'Refresh cached data for a specific package' -r -f
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from sync" -s p -l python -d 'The Python interpreter into which packages should be installed.' -r -f
-complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from sync" -l target -d 'Install packages into the specified directory, rather than into the virtual or system Python environment. The packages will be installed at the top-level of the directory' -r -f -a "(__fish_complete_directories)"
+complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from sync" -s t -l target -d 'Install packages into the specified directory, rather than into the virtual or system Python environment. The packages will be installed at the top-level of the directory' -r -f -a "(__fish_complete_directories)"
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from sync" -l prefix -d 'Install packages into `lib`, `bin`, and other top-level folders under the specified directory, as if a virtual environment were present at that location' -r -f -a "(__fish_complete_directories)"
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from sync" -l no-binary -d 'Don\'t install pre-built wheels' -r
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from sync" -l only-binary -d 'Only use pre-built wheels; don\'t build source distributions' -r
@@ -3119,6 +3367,9 @@ cu92\t'Use the PyTorch index for CUDA 9.2'
 cu91\t'Use the PyTorch index for CUDA 9.1'
 cu90\t'Use the PyTorch index for CUDA 9.0'
 cu80\t'Use the PyTorch index for CUDA 8.0'
+rocm7.2\t'Use the PyTorch index for ROCm 7.2'
+rocm7.1\t'Use the PyTorch index for ROCm 7.1'
+rocm7.0\t'Use the PyTorch index for ROCm 7.0'
 rocm6.4\t'Use the PyTorch index for ROCm 6.4'
 rocm6.3\t'Use the PyTorch index for ROCm 6.3'
 rocm6.2.4\t'Use the PyTorch index for ROCm 6.2.4'
@@ -3196,8 +3447,10 @@ complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_fr
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from sync" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from sync" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from sync" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from sync" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from sync" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from sync" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from sync" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from sync" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from sync" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from sync" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from sync" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -3221,6 +3474,7 @@ complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_fr
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from install" -l extra-index-url -d '(Deprecated: use `--index` instead) Extra URLs of package indexes to use, in addition to `--index-url`' -r
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from install" -s f -l find-links -d 'Locations to search for candidate distributions, in addition to those found in the registry indexes' -r
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from install" -s P -l upgrade-package -d 'Allow upgrades for a specific package, ignoring pinned versions in any existing output file. Implies `--refresh-package`' -r -f
+complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from install" -l upgrade-group -d 'Allow upgrades for all packages in a dependency group, ignoring pinned versions in any existing output file' -r
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from install" -l reinstall-package -d 'Reinstall a specific package, regardless of whether it\'s already installed. Implies `--refresh-package`' -r -f
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from install" -l index-strategy -d 'The strategy to use when resolving against multiple index URLs' -r -f -a "first-index\t'Only use results from the first index that returns a match for a given package name'
 unsafe-first-match\t'Search for every package name across all indexes, exhausting the versions from the first index before moving on to the next'
@@ -3242,14 +3496,14 @@ complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_fr
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from install" -l no-build-isolation-package -d 'Disable isolation when building source distributions for a specific package' -r -f
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from install" -l exclude-newer -d 'Limit candidate packages to those that were uploaded prior to the given date' -r -f
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from install" -l exclude-newer-package -d 'Limit candidate packages for specific packages to those that were uploaded prior to the given date' -r -f
-complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from install" -l link-mode -d 'The method to use when installing packages from the global cache' -r -f -a "clone\t'Clone (i.e., copy-on-write) packages from the wheel into the `site-packages` directory'
-copy\t'Copy packages from the wheel into the `site-packages` directory'
-hardlink\t'Hard link packages from the wheel into the `site-packages` directory'
-symlink\t'Symbolically link packages from the wheel into the `site-packages` directory'"
+complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from install" -l link-mode -d 'The method to use when installing packages from the global cache' -r -f -a "clone\t'Clone (i.e., copy-on-write) packages from the source into the destination'
+copy\t'Copy packages from the source into the destination'
+hardlink\t'Hard link packages from the source into the destination'
+symlink\t'Symbolically link packages from the source into the destination'"
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from install" -l no-sources-package -d 'Don\'t use sources from the `tool.uv.sources` table for the specified packages' -r
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from install" -l refresh-package -d 'Refresh cached data for a specific package' -r -f
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from install" -s p -l python -d 'The Python interpreter into which packages should be installed.' -r -f
-complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from install" -l target -d 'Install packages into the specified directory, rather than into the virtual or system Python environment. The packages will be installed at the top-level of the directory' -r -f -a "(__fish_complete_directories)"
+complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from install" -s t -l target -d 'Install packages into the specified directory, rather than into the virtual or system Python environment. The packages will be installed at the top-level of the directory' -r -f -a "(__fish_complete_directories)"
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from install" -l prefix -d 'Install packages into `lib`, `bin`, and other top-level folders under the specified directory, as if a virtual environment were present at that location' -r -f -a "(__fish_complete_directories)"
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from install" -l no-binary -d 'Don\'t install pre-built wheels' -r
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from install" -l only-binary -d 'Only use pre-built wheels; don\'t build source distributions' -r
@@ -3327,6 +3581,9 @@ cu92\t'Use the PyTorch index for CUDA 9.2'
 cu91\t'Use the PyTorch index for CUDA 9.1'
 cu90\t'Use the PyTorch index for CUDA 9.0'
 cu80\t'Use the PyTorch index for CUDA 8.0'
+rocm7.2\t'Use the PyTorch index for ROCm 7.2'
+rocm7.1\t'Use the PyTorch index for ROCm 7.1'
+rocm7.0\t'Use the PyTorch index for ROCm 7.0'
 rocm6.4\t'Use the PyTorch index for ROCm 6.4'
 rocm6.3\t'Use the PyTorch index for ROCm 6.3'
 rocm6.2.4\t'Use the PyTorch index for ROCm 6.2.4'
@@ -3403,8 +3660,10 @@ complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_fr
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from install" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from install" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from install" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from install" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from install" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from install" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from install" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from install" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from install" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from install" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from install" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -3419,7 +3678,7 @@ complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_fr
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from uninstall" -s p -l python -d 'The Python interpreter from which packages should be uninstalled.' -r -f
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from uninstall" -l keyring-provider -d 'Attempt to use `keyring` for authentication for remote requirements files' -r -f -a "disabled\t'Do not use keyring for credential lookup'
 subprocess\t'Use the `keyring` command for credential lookup'"
-complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from uninstall" -l target -d 'Uninstall packages from the specified `--target` directory' -r -f -a "(__fish_complete_directories)"
+complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from uninstall" -s t -l target -d 'Uninstall packages from the specified `--target` directory' -r -f -a "(__fish_complete_directories)"
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from uninstall" -l prefix -d 'Uninstall packages from the specified `--prefix` directory' -r -f -a "(__fish_complete_directories)"
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from uninstall" -l cache-dir -d 'Path to the cache directory' -r -f -a "(__fish_complete_directories)"
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from uninstall" -l python-preference -r -f -a "only-managed\t'Only use managed Python installations; never use system Python installations'
@@ -3451,8 +3710,10 @@ complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_fr
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from uninstall" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from uninstall" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from uninstall" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from uninstall" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from uninstall" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from uninstall" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from uninstall" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from uninstall" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from uninstall" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from uninstall" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from uninstall" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -3463,9 +3724,10 @@ complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_fr
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from uninstall" -l no-installer-metadata -d 'Skip writing `uv` installer metadata files (e.g., `INSTALLER`, `REQUESTED`, and `direct_url.json`) to site-packages `.dist-info` directories [env: UV_NO_INSTALLER_METADATA=]'
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from uninstall" -l no-config -d 'Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)'
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from uninstall" -s h -l help -d 'Display the concise help for this command'
+complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from freeze" -l exclude -d 'Exclude the specified package(s) from the output' -r
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from freeze" -s p -l python -d 'The Python interpreter for which packages should be listed.' -r -f
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from freeze" -l path -d 'Restrict to the specified installation path for listing packages (can be used multiple times)' -r -f -a "(__fish_complete_directories)"
-complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from freeze" -l target -d 'List packages from the specified `--target` directory' -r -f -a "(__fish_complete_directories)"
+complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from freeze" -s t -l target -d 'List packages from the specified `--target` directory' -r -f -a "(__fish_complete_directories)"
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from freeze" -l prefix -d 'List packages from the specified `--prefix` directory' -r -f -a "(__fish_complete_directories)"
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from freeze" -l cache-dir -d 'Path to the cache directory' -r -f -a "(__fish_complete_directories)"
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from freeze" -l python-preference -r -f -a "only-managed\t'Only use managed Python installations; never use system Python installations'
@@ -3497,8 +3759,10 @@ complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_fr
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from freeze" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from freeze" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from freeze" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from freeze" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from freeze" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from freeze" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from freeze" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from freeze" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from freeze" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from freeze" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from freeze" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -3525,7 +3789,7 @@ complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_fr
 subprocess\t'Use the `keyring` command for credential lookup'"
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from list" -l exclude-newer -d 'Limit candidate packages to those that were uploaded prior to the given date' -r
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from list" -s p -l python -d 'The Python interpreter for which packages should be listed.' -r -f
-complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from list" -l target -d 'List packages from the specified `--target` directory' -r -f -a "(__fish_complete_directories)"
+complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from list" -s t -l target -d 'List packages from the specified `--target` directory' -r -f -a "(__fish_complete_directories)"
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from list" -l prefix -d 'List packages from the specified `--prefix` directory' -r -f -a "(__fish_complete_directories)"
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from list" -l cache-dir -d 'Path to the cache directory' -r -f -a "(__fish_complete_directories)"
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from list" -l python-preference -r -f -a "only-managed\t'Only use managed Python installations; never use system Python installations'
@@ -3561,8 +3825,10 @@ complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_fr
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from list" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from list" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from list" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from list" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from list" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from list" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from list" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from list" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from list" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from list" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from list" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -3574,7 +3840,7 @@ complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_fr
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from list" -l no-config -d 'Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)'
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from list" -s h -l help -d 'Display the concise help for this command'
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from show" -s p -l python -d 'The Python interpreter to find the package in.' -r -f
-complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from show" -l target -d 'Show a package from the specified `--target` directory' -r -f -a "(__fish_complete_directories)"
+complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from show" -s t -l target -d 'Show a package from the specified `--target` directory' -r -f -a "(__fish_complete_directories)"
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from show" -l prefix -d 'Show a package from the specified `--prefix` directory' -r -f -a "(__fish_complete_directories)"
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from show" -l cache-dir -d 'Path to the cache directory' -r -f -a "(__fish_complete_directories)"
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from show" -l python-preference -r -f -a "only-managed\t'Only use managed Python installations; never use system Python installations'
@@ -3606,8 +3872,10 @@ complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_fr
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from show" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from show" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from show" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from show" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from show" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from show" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from show" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from show" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from show" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from show" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from show" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -3668,8 +3936,10 @@ complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_fr
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from tree" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from tree" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from tree" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from tree" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from tree" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from tree" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from tree" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from tree" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from tree" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from tree" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from tree" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -3753,8 +4023,10 @@ complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_fr
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from check" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from check" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from check" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from check" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from check" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from check" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from check" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from check" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from check" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from check" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from check" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -3793,8 +4065,10 @@ complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_fr
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from debug" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from debug" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from debug" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from debug" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from debug" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from debug" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from debug" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from debug" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from debug" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from debug" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from debug" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -3819,10 +4093,10 @@ complete -c uv -n "__fish_uv_using_subcommand venv" -l keyring-provider -d 'Atte
 subprocess\t'Use the `keyring` command for credential lookup'"
 complete -c uv -n "__fish_uv_using_subcommand venv" -l exclude-newer -d 'Limit candidate packages to those that were uploaded prior to the given date' -r
 complete -c uv -n "__fish_uv_using_subcommand venv" -l exclude-newer-package -d 'Limit candidate packages for a specific package to those that were uploaded prior to the given date' -r
-complete -c uv -n "__fish_uv_using_subcommand venv" -l link-mode -d 'The method to use when installing packages from the global cache' -r -f -a "clone\t'Clone (i.e., copy-on-write) packages from the wheel into the `site-packages` directory'
-copy\t'Copy packages from the wheel into the `site-packages` directory'
-hardlink\t'Hard link packages from the wheel into the `site-packages` directory'
-symlink\t'Symbolically link packages from the wheel into the `site-packages` directory'"
+complete -c uv -n "__fish_uv_using_subcommand venv" -l link-mode -d 'The method to use when installing packages from the global cache' -r -f -a "clone\t'Clone (i.e., copy-on-write) packages from the source into the destination'
+copy\t'Copy packages from the source into the destination'
+hardlink\t'Hard link packages from the source into the destination'
+symlink\t'Symbolically link packages from the source into the destination'"
 complete -c uv -n "__fish_uv_using_subcommand venv" -l refresh-package -d 'Refresh cached data for a specific package' -r -f
 complete -c uv -n "__fish_uv_using_subcommand venv" -l cache-dir -d 'Path to the cache directory' -r -f -a "(__fish_complete_directories)"
 complete -c uv -n "__fish_uv_using_subcommand venv" -l python-preference -r -f -a "only-managed\t'Only use managed Python installations; never use system Python installations'
@@ -3848,7 +4122,8 @@ complete -c uv -n "__fish_uv_using_subcommand venv" -s c -l clear -d 'Remove any
 complete -c uv -n "__fish_uv_using_subcommand venv" -l no-clear -d 'Fail without prompting if any existing files or directories are present at the target path'
 complete -c uv -n "__fish_uv_using_subcommand venv" -l allow-existing -d 'Preserve any existing files or directories at the target path'
 complete -c uv -n "__fish_uv_using_subcommand venv" -l system-site-packages -d 'Give the virtual environment access to the system site packages directory'
-complete -c uv -n "__fish_uv_using_subcommand venv" -l relocatable -d 'Make the virtual environment relocatable'
+complete -c uv -n "__fish_uv_using_subcommand venv" -l relocatable -d 'Make the virtual environment relocatable [env: UV_VENV_RELOCATABLE=]'
+complete -c uv -n "__fish_uv_using_subcommand venv" -l no-relocatable -d 'Don\'t make the virtual environment relocatable'
 complete -c uv -n "__fish_uv_using_subcommand venv" -l no-index -d 'Ignore the registry index (e.g., PyPI), instead relying on direct URL dependencies and those provided via `--find-links`'
 complete -c uv -n "__fish_uv_using_subcommand venv" -l refresh -d 'Refresh all cached data'
 complete -c uv -n "__fish_uv_using_subcommand venv" -l no-refresh
@@ -3864,8 +4139,10 @@ complete -c uv -n "__fish_uv_using_subcommand venv" -l no-python-downloads -d 'D
 complete -c uv -n "__fish_uv_using_subcommand venv" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand venv" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand venv" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand venv" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand venv" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand venv" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand venv" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand venv" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand venv" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand venv" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand venv" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -3886,6 +4163,7 @@ complete -c uv -n "__fish_uv_using_subcommand build" -s i -l index-url -d '(Depr
 complete -c uv -n "__fish_uv_using_subcommand build" -l extra-index-url -d '(Deprecated: use `--index` instead) Extra URLs of package indexes to use, in addition to `--index-url`' -r
 complete -c uv -n "__fish_uv_using_subcommand build" -s f -l find-links -d 'Locations to search for candidate distributions, in addition to those found in the registry indexes' -r
 complete -c uv -n "__fish_uv_using_subcommand build" -s P -l upgrade-package -d 'Allow upgrades for a specific package, ignoring pinned versions in any existing output file. Implies `--refresh-package`' -r
+complete -c uv -n "__fish_uv_using_subcommand build" -l upgrade-group -d 'Allow upgrades for all packages in a dependency group, ignoring pinned versions in any existing output file' -r
 complete -c uv -n "__fish_uv_using_subcommand build" -l index-strategy -d 'The strategy to use when resolving against multiple index URLs' -r -f -a "first-index\t'Only use results from the first index that returns a match for a given package name'
 unsafe-first-match\t'Search for every package name across all indexes, exhausting the versions from the first index before moving on to the next'
 unsafe-best-match\t'Search for every package name across all indexes, preferring the "best" version found. If a package version is in multiple indexes, only look at the entry for the first index'"
@@ -3906,10 +4184,10 @@ complete -c uv -n "__fish_uv_using_subcommand build" -l config-settings-package 
 complete -c uv -n "__fish_uv_using_subcommand build" -l no-build-isolation-package -d 'Disable isolation when building source distributions for a specific package' -r -f
 complete -c uv -n "__fish_uv_using_subcommand build" -l exclude-newer -d 'Limit candidate packages to those that were uploaded prior to the given date' -r
 complete -c uv -n "__fish_uv_using_subcommand build" -l exclude-newer-package -d 'Limit candidate packages for specific packages to those that were uploaded prior to the given date' -r
-complete -c uv -n "__fish_uv_using_subcommand build" -l link-mode -d 'The method to use when installing packages from the global cache' -r -f -a "clone\t'Clone (i.e., copy-on-write) packages from the wheel into the `site-packages` directory'
-copy\t'Copy packages from the wheel into the `site-packages` directory'
-hardlink\t'Hard link packages from the wheel into the `site-packages` directory'
-symlink\t'Symbolically link packages from the wheel into the `site-packages` directory'"
+complete -c uv -n "__fish_uv_using_subcommand build" -l link-mode -d 'The method to use when installing packages from the global cache' -r -f -a "clone\t'Clone (i.e., copy-on-write) packages from the source into the destination'
+copy\t'Copy packages from the source into the destination'
+hardlink\t'Hard link packages from the source into the destination'
+symlink\t'Symbolically link packages from the source into the destination'"
 complete -c uv -n "__fish_uv_using_subcommand build" -l no-sources-package -d 'Don\'t use sources from the `tool.uv.sources` table for the specified packages' -r
 complete -c uv -n "__fish_uv_using_subcommand build" -l no-build-package -d 'Don\'t build source distributions for a specific package' -r -f
 complete -c uv -n "__fish_uv_using_subcommand build" -l no-binary-package -d 'Don\'t install pre-built wheels for a specific package' -r -f
@@ -3965,8 +4243,10 @@ complete -c uv -n "__fish_uv_using_subcommand build" -l no-python-downloads -d '
 complete -c uv -n "__fish_uv_using_subcommand build" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand build" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand build" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand build" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand build" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand build" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand build" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand build" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand build" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand build" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand build" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -4016,8 +4296,10 @@ complete -c uv -n "__fish_uv_using_subcommand publish" -l no-python-downloads -d
 complete -c uv -n "__fish_uv_using_subcommand publish" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand publish" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand publish" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand publish" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand publish" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand publish" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand publish" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand publish" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand publish" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand publish" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand publish" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -4052,8 +4334,10 @@ complete -c uv -n "__fish_uv_using_subcommand workspace; and not __fish_seen_sub
 complete -c uv -n "__fish_uv_using_subcommand workspace; and not __fish_seen_subcommand_from metadata dir list" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand workspace; and not __fish_seen_subcommand_from metadata dir list" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand workspace; and not __fish_seen_subcommand_from metadata dir list" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand workspace; and not __fish_seen_subcommand_from metadata dir list" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand workspace; and not __fish_seen_subcommand_from metadata dir list" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand workspace; and not __fish_seen_subcommand_from metadata dir list" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand workspace; and not __fish_seen_subcommand_from metadata dir list" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand workspace; and not __fish_seen_subcommand_from metadata dir list" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand workspace; and not __fish_seen_subcommand_from metadata dir list" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand workspace; and not __fish_seen_subcommand_from metadata dir list" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand workspace; and not __fish_seen_subcommand_from metadata dir list" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -4067,6 +4351,42 @@ complete -c uv -n "__fish_uv_using_subcommand workspace; and not __fish_seen_sub
 complete -c uv -n "__fish_uv_using_subcommand workspace; and not __fish_seen_subcommand_from metadata dir list" -f -a "metadata" -d 'View metadata about the current workspace'
 complete -c uv -n "__fish_uv_using_subcommand workspace; and not __fish_seen_subcommand_from metadata dir list" -f -a "dir" -d 'Display the path of a workspace member'
 complete -c uv -n "__fish_uv_using_subcommand workspace; and not __fish_seen_subcommand_from metadata dir list" -f -a "list" -d 'List the members of a workspace'
+complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -l index -d 'The URLs to use when resolving dependencies, in addition to the default index' -r
+complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -l default-index -d 'The URL of the default package index (by default: <https://pypi.org/simple>)' -r
+complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -s i -l index-url -d '(Deprecated: use `--default-index` instead) The URL of the Python package index (by default: <https://pypi.org/simple>)' -r
+complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -l extra-index-url -d '(Deprecated: use `--index` instead) Extra URLs of package indexes to use, in addition to `--index-url`' -r
+complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -s f -l find-links -d 'Locations to search for candidate distributions, in addition to those found in the registry indexes' -r
+complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -s P -l upgrade-package -d 'Allow upgrades for a specific package, ignoring pinned versions in any existing output file. Implies `--refresh-package`' -r
+complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -l upgrade-group -d 'Allow upgrades for all packages in a dependency group, ignoring pinned versions in any existing output file' -r
+complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -l index-strategy -d 'The strategy to use when resolving against multiple index URLs' -r -f -a "first-index\t'Only use results from the first index that returns a match for a given package name'
+unsafe-first-match\t'Search for every package name across all indexes, exhausting the versions from the first index before moving on to the next'
+unsafe-best-match\t'Search for every package name across all indexes, preferring the "best" version found. If a package version is in multiple indexes, only look at the entry for the first index'"
+complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -l keyring-provider -d 'Attempt to use `keyring` for authentication for index URLs' -r -f -a "disabled\t'Do not use keyring for credential lookup'
+subprocess\t'Use the `keyring` command for credential lookup'"
+complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -l resolution -d 'The strategy to use when selecting between the different compatible versions for a given package requirement' -r -f -a "highest\t'Resolve the highest compatible version of each package'
+lowest\t'Resolve the lowest compatible version of each package'
+lowest-direct\t'Resolve the lowest compatible version of any direct dependencies, and the highest compatible version of any transitive dependencies'"
+complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -l prerelease -d 'The strategy to use when considering pre-release versions' -r -f -a "disallow\t'Disallow all pre-release versions'
+allow\t'Allow all pre-release versions'
+if-necessary\t'Allow pre-release versions if all versions of a package are pre-release'
+explicit\t'Allow pre-release versions for first-party packages with explicit pre-release markers in their version requirements'
+if-necessary-or-explicit\t'Allow pre-release versions if all versions of a package are pre-release, or if the package has an explicit pre-release marker in its version requirements'"
+complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -l fork-strategy -d 'The strategy to use when selecting multiple versions of a given package across Python versions and platforms' -r -f -a "fewest\t'Optimize for selecting the fewest number of versions for each package. Older versions may be preferred if they are compatible with a wider range of supported Python versions or platforms'
+requires-python\t'Optimize for selecting latest supported version of each package, for each supported Python version'"
+complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -s C -l config-setting -d 'Settings to pass to the PEP 517 build backend, specified as `KEY=VALUE` pairs' -r
+complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -l config-settings-package -d 'Settings to pass to the PEP 517 build backend for a specific package, specified as `PACKAGE:KEY=VALUE` pairs' -r
+complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -l no-build-isolation-package -d 'Disable isolation when building source distributions for a specific package' -r -f
+complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -l exclude-newer -d 'Limit candidate packages to those that were uploaded prior to the given date' -r
+complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -l exclude-newer-package -d 'Limit candidate packages for specific packages to those that were uploaded prior to the given date' -r
+complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -l link-mode -d 'The method to use when installing packages from the global cache' -r -f -a "clone\t'Clone (i.e., copy-on-write) packages from the source into the destination'
+copy\t'Copy packages from the source into the destination'
+hardlink\t'Hard link packages from the source into the destination'
+symlink\t'Symbolically link packages from the source into the destination'"
+complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -l no-sources-package -d 'Don\'t use sources from the `tool.uv.sources` table for the specified packages' -r
+complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -l no-build-package -d 'Don\'t build source distributions for a specific package' -r -f
+complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -l no-binary-package -d 'Don\'t install pre-built wheels for a specific package' -r -f
+complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -l refresh-package -d 'Refresh cached data for a specific package' -r -f
+complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -s p -l python -d 'The Python interpreter to use during resolution.' -r -f
 complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -l cache-dir -d 'Path to the cache directory' -r -f -a "(__fish_complete_directories)"
 complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -l python-preference -r -f -a "only-managed\t'Only use managed Python installations; never use system Python installations'
 managed\t'Prefer managed Python installations over system Python installations'
@@ -4083,6 +4403,22 @@ complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcomm
 complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -l directory -d 'Change to the given directory prior to running the command' -r -f -a "(__fish_complete_directories)"
 complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -l project -d 'Discover a project in the given directory' -r -f -a "(__fish_complete_directories)"
 complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -l config-file -d 'The path to a `uv.toml` file to use for configuration' -r -F
+complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -l locked -d 'Check if the lockfile is up-to-date [env: UV_LOCKED=]'
+complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -l frozen -d 'Assert that a `uv.lock` exists without checking if it is up-to-date [env: UV_FROZEN=]'
+complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -l dry-run -d 'Perform a dry run, without writing the lockfile'
+complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -l no-index -d 'Ignore the registry index (e.g., PyPI), instead relying on direct URL dependencies and those provided via `--find-links`'
+complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -s U -l upgrade -d 'Allow package upgrades, ignoring pinned versions in any existing output file. Implies `--refresh`'
+complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -l no-upgrade
+complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -l pre
+complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -l no-build-isolation -d 'Disable isolation when building source distributions'
+complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -l build-isolation
+complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -l no-sources -d 'Ignore the `tool.uv.sources` table when resolving dependencies. Used to lock against the standards-compliant, publishable package metadata, as opposed to using any workspace, Git, URL, or local path sources'
+complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -l no-build -d 'Don\'t build source distributions'
+complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -l build
+complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -l no-binary -d 'Don\'t install pre-built wheels'
+complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -l binary
+complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -l refresh -d 'Refresh all cached data'
+complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -l no-refresh
 complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -s n -l no-cache -d 'Avoid reading from or writing to the cache, instead using a temporary directory for the duration of the operation'
 complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -l managed-python -d 'Require use of uv-managed Python versions [env: UV_MANAGED_PYTHON=]'
 complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -l no-managed-python -d 'Disable use of uv-managed Python versions [env: UV_NO_MANAGED_PYTHON=]'
@@ -4091,8 +4427,10 @@ complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcomm
 complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -4128,8 +4466,10 @@ complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcomm
 complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from dir" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from dir" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from dir" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from dir" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from dir" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from dir" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from dir" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from dir" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from dir" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from dir" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from dir" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -4165,8 +4505,10 @@ complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcomm
 complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from list" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from list" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from list" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from list" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from list" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from list" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from list" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from list" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from list" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from list" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from list" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -4201,8 +4543,10 @@ complete -c uv -n "__fish_uv_using_subcommand build-backend; and not __fish_seen
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and not __fish_seen_subcommand_from build-sdist build-wheel build-editable get-requires-for-build-sdist get-requires-for-build-wheel prepare-metadata-for-build-wheel get-requires-for-build-editable prepare-metadata-for-build-editable" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and not __fish_seen_subcommand_from build-sdist build-wheel build-editable get-requires-for-build-sdist get-requires-for-build-wheel prepare-metadata-for-build-wheel get-requires-for-build-editable prepare-metadata-for-build-editable" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and not __fish_seen_subcommand_from build-sdist build-wheel build-editable get-requires-for-build-sdist get-requires-for-build-wheel prepare-metadata-for-build-wheel get-requires-for-build-editable prepare-metadata-for-build-editable" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand build-backend; and not __fish_seen_subcommand_from build-sdist build-wheel build-editable get-requires-for-build-sdist get-requires-for-build-wheel prepare-metadata-for-build-wheel get-requires-for-build-editable prepare-metadata-for-build-editable" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand build-backend; and not __fish_seen_subcommand_from build-sdist build-wheel build-editable get-requires-for-build-sdist get-requires-for-build-wheel prepare-metadata-for-build-wheel get-requires-for-build-editable prepare-metadata-for-build-editable" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and not __fish_seen_subcommand_from build-sdist build-wheel build-editable get-requires-for-build-sdist get-requires-for-build-wheel prepare-metadata-for-build-wheel get-requires-for-build-editable prepare-metadata-for-build-editable" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand build-backend; and not __fish_seen_subcommand_from build-sdist build-wheel build-editable get-requires-for-build-sdist get-requires-for-build-wheel prepare-metadata-for-build-wheel get-requires-for-build-editable prepare-metadata-for-build-editable" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand build-backend; and not __fish_seen_subcommand_from build-sdist build-wheel build-editable get-requires-for-build-sdist get-requires-for-build-wheel prepare-metadata-for-build-wheel get-requires-for-build-editable prepare-metadata-for-build-editable" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and not __fish_seen_subcommand_from build-sdist build-wheel build-editable get-requires-for-build-sdist get-requires-for-build-wheel prepare-metadata-for-build-wheel get-requires-for-build-editable prepare-metadata-for-build-editable" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and not __fish_seen_subcommand_from build-sdist build-wheel build-editable get-requires-for-build-sdist get-requires-for-build-wheel prepare-metadata-for-build-wheel get-requires-for-build-editable prepare-metadata-for-build-editable" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and not __fish_seen_subcommand_from build-sdist build-wheel build-editable get-requires-for-build-sdist get-requires-for-build-wheel prepare-metadata-for-build-wheel get-requires-for-build-editable prepare-metadata-for-build-editable" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -4245,8 +4589,10 @@ complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_sub
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from build-sdist" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from build-sdist" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from build-sdist" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from build-sdist" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from build-sdist" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from build-sdist" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from build-sdist" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from build-sdist" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from build-sdist" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from build-sdist" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from build-sdist" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -4282,8 +4628,10 @@ complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_sub
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from build-wheel" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from build-wheel" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from build-wheel" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from build-wheel" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from build-wheel" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from build-wheel" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from build-wheel" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from build-wheel" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from build-wheel" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from build-wheel" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from build-wheel" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -4319,8 +4667,10 @@ complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_sub
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from build-editable" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from build-editable" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from build-editable" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from build-editable" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from build-editable" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from build-editable" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from build-editable" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from build-editable" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from build-editable" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from build-editable" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from build-editable" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -4355,8 +4705,10 @@ complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_sub
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from get-requires-for-build-sdist" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from get-requires-for-build-sdist" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from get-requires-for-build-sdist" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from get-requires-for-build-sdist" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from get-requires-for-build-sdist" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from get-requires-for-build-sdist" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from get-requires-for-build-sdist" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from get-requires-for-build-sdist" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from get-requires-for-build-sdist" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from get-requires-for-build-sdist" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from get-requires-for-build-sdist" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -4391,8 +4743,10 @@ complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_sub
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from get-requires-for-build-wheel" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from get-requires-for-build-wheel" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from get-requires-for-build-wheel" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from get-requires-for-build-wheel" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from get-requires-for-build-wheel" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from get-requires-for-build-wheel" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from get-requires-for-build-wheel" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from get-requires-for-build-wheel" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from get-requires-for-build-wheel" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from get-requires-for-build-wheel" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from get-requires-for-build-wheel" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -4427,8 +4781,10 @@ complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_sub
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from prepare-metadata-for-build-wheel" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from prepare-metadata-for-build-wheel" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from prepare-metadata-for-build-wheel" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from prepare-metadata-for-build-wheel" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from prepare-metadata-for-build-wheel" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from prepare-metadata-for-build-wheel" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from prepare-metadata-for-build-wheel" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from prepare-metadata-for-build-wheel" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from prepare-metadata-for-build-wheel" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from prepare-metadata-for-build-wheel" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from prepare-metadata-for-build-wheel" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -4463,8 +4819,10 @@ complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_sub
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from get-requires-for-build-editable" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from get-requires-for-build-editable" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from get-requires-for-build-editable" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from get-requires-for-build-editable" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from get-requires-for-build-editable" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from get-requires-for-build-editable" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from get-requires-for-build-editable" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from get-requires-for-build-editable" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from get-requires-for-build-editable" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from get-requires-for-build-editable" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from get-requires-for-build-editable" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -4499,8 +4857,10 @@ complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_sub
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from prepare-metadata-for-build-editable" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from prepare-metadata-for-build-editable" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from prepare-metadata-for-build-editable" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from prepare-metadata-for-build-editable" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from prepare-metadata-for-build-editable" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from prepare-metadata-for-build-editable" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from prepare-metadata-for-build-editable" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from prepare-metadata-for-build-editable" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from prepare-metadata-for-build-editable" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from prepare-metadata-for-build-editable" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from prepare-metadata-for-build-editable" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -4535,8 +4895,10 @@ complete -c uv -n "__fish_uv_using_subcommand cache; and not __fish_seen_subcomm
 complete -c uv -n "__fish_uv_using_subcommand cache; and not __fish_seen_subcommand_from clean prune dir size" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand cache; and not __fish_seen_subcommand_from clean prune dir size" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand cache; and not __fish_seen_subcommand_from clean prune dir size" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand cache; and not __fish_seen_subcommand_from clean prune dir size" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand cache; and not __fish_seen_subcommand_from clean prune dir size" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand cache; and not __fish_seen_subcommand_from clean prune dir size" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand cache; and not __fish_seen_subcommand_from clean prune dir size" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand cache; and not __fish_seen_subcommand_from clean prune dir size" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand cache; and not __fish_seen_subcommand_from clean prune dir size" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand cache; and not __fish_seen_subcommand_from clean prune dir size" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand cache; and not __fish_seen_subcommand_from clean prune dir size" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -4576,8 +4938,10 @@ complete -c uv -n "__fish_uv_using_subcommand cache; and __fish_seen_subcommand_
 complete -c uv -n "__fish_uv_using_subcommand cache; and __fish_seen_subcommand_from clean" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand cache; and __fish_seen_subcommand_from clean" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand cache; and __fish_seen_subcommand_from clean" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand cache; and __fish_seen_subcommand_from clean" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand cache; and __fish_seen_subcommand_from clean" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand cache; and __fish_seen_subcommand_from clean" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand cache; and __fish_seen_subcommand_from clean" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand cache; and __fish_seen_subcommand_from clean" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand cache; and __fish_seen_subcommand_from clean" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand cache; and __fish_seen_subcommand_from clean" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand cache; and __fish_seen_subcommand_from clean" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -4614,8 +4978,10 @@ complete -c uv -n "__fish_uv_using_subcommand cache; and __fish_seen_subcommand_
 complete -c uv -n "__fish_uv_using_subcommand cache; and __fish_seen_subcommand_from prune" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand cache; and __fish_seen_subcommand_from prune" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand cache; and __fish_seen_subcommand_from prune" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand cache; and __fish_seen_subcommand_from prune" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand cache; and __fish_seen_subcommand_from prune" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand cache; and __fish_seen_subcommand_from prune" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand cache; and __fish_seen_subcommand_from prune" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand cache; and __fish_seen_subcommand_from prune" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand cache; and __fish_seen_subcommand_from prune" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand cache; and __fish_seen_subcommand_from prune" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand cache; and __fish_seen_subcommand_from prune" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -4650,8 +5016,10 @@ complete -c uv -n "__fish_uv_using_subcommand cache; and __fish_seen_subcommand_
 complete -c uv -n "__fish_uv_using_subcommand cache; and __fish_seen_subcommand_from dir" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand cache; and __fish_seen_subcommand_from dir" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand cache; and __fish_seen_subcommand_from dir" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand cache; and __fish_seen_subcommand_from dir" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand cache; and __fish_seen_subcommand_from dir" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand cache; and __fish_seen_subcommand_from dir" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand cache; and __fish_seen_subcommand_from dir" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand cache; and __fish_seen_subcommand_from dir" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand cache; and __fish_seen_subcommand_from dir" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand cache; and __fish_seen_subcommand_from dir" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand cache; and __fish_seen_subcommand_from dir" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -4687,8 +5055,10 @@ complete -c uv -n "__fish_uv_using_subcommand cache; and __fish_seen_subcommand_
 complete -c uv -n "__fish_uv_using_subcommand cache; and __fish_seen_subcommand_from size" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand cache; and __fish_seen_subcommand_from size" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand cache; and __fish_seen_subcommand_from size" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand cache; and __fish_seen_subcommand_from size" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand cache; and __fish_seen_subcommand_from size" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand cache; and __fish_seen_subcommand_from size" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand cache; and __fish_seen_subcommand_from size" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand cache; and __fish_seen_subcommand_from size" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand cache; and __fish_seen_subcommand_from size" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand cache; and __fish_seen_subcommand_from size" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand cache; and __fish_seen_subcommand_from size" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -4723,8 +5093,10 @@ complete -c uv -n "__fish_uv_using_subcommand self; and not __fish_seen_subcomma
 complete -c uv -n "__fish_uv_using_subcommand self; and not __fish_seen_subcommand_from update version" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand self; and not __fish_seen_subcommand_from update version" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand self; and not __fish_seen_subcommand_from update version" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand self; and not __fish_seen_subcommand_from update version" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand self; and not __fish_seen_subcommand_from update version" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand self; and not __fish_seen_subcommand_from update version" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand self; and not __fish_seen_subcommand_from update version" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand self; and not __fish_seen_subcommand_from update version" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand self; and not __fish_seen_subcommand_from update version" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand self; and not __fish_seen_subcommand_from update version" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand self; and not __fish_seen_subcommand_from update version" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -4763,8 +5135,10 @@ complete -c uv -n "__fish_uv_using_subcommand self; and __fish_seen_subcommand_f
 complete -c uv -n "__fish_uv_using_subcommand self; and __fish_seen_subcommand_from update" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand self; and __fish_seen_subcommand_from update" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand self; and __fish_seen_subcommand_from update" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand self; and __fish_seen_subcommand_from update" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand self; and __fish_seen_subcommand_from update" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand self; and __fish_seen_subcommand_from update" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand self; and __fish_seen_subcommand_from update" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand self; and __fish_seen_subcommand_from update" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand self; and __fish_seen_subcommand_from update" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand self; and __fish_seen_subcommand_from update" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand self; and __fish_seen_subcommand_from update" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -4802,8 +5176,10 @@ complete -c uv -n "__fish_uv_using_subcommand self; and __fish_seen_subcommand_f
 complete -c uv -n "__fish_uv_using_subcommand self; and __fish_seen_subcommand_from version" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand self; and __fish_seen_subcommand_from version" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand self; and __fish_seen_subcommand_from version" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand self; and __fish_seen_subcommand_from version" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand self; and __fish_seen_subcommand_from version" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand self; and __fish_seen_subcommand_from version" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand self; and __fish_seen_subcommand_from version" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand self; and __fish_seen_subcommand_from version" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand self; and __fish_seen_subcommand_from version" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand self; and __fish_seen_subcommand_from version" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand self; and __fish_seen_subcommand_from version" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -4839,8 +5215,10 @@ complete -c uv -n "__fish_uv_using_subcommand clean" -l no-python-downloads -d '
 complete -c uv -n "__fish_uv_using_subcommand clean" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand clean" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand clean" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand clean" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand clean" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand clean" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand clean" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand clean" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand clean" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand clean" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand clean" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
@@ -4882,6 +5260,8 @@ complete -c uv -n "__fish_uv_using_subcommand generate-shell-completion" -l no-m
 complete -c uv -n "__fish_uv_using_subcommand generate-shell-completion" -l allow-python-downloads -d 'Allow automatically downloading Python when required. [env: "UV_PYTHON_DOWNLOADS=auto"]'
 complete -c uv -n "__fish_uv_using_subcommand generate-shell-completion" -l no-color -d 'Disable colors'
 complete -c uv -n "__fish_uv_using_subcommand generate-shell-completion" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand generate-shell-completion" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand generate-shell-completion" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand generate-shell-completion" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand generate-shell-completion" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
 complete -c uv -n "__fish_uv_using_subcommand generate-shell-completion" -l no-preview
@@ -4913,8 +5293,10 @@ complete -c uv -n "__fish_uv_using_subcommand help" -l no-python-downloads -d 'D
 complete -c uv -n "__fish_uv_using_subcommand help" -s q -l quiet -d 'Use quiet output'
 complete -c uv -n "__fish_uv_using_subcommand help" -s v -l verbose -d 'Use verbose output'
 complete -c uv -n "__fish_uv_using_subcommand help" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_using_subcommand help" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native store [env: UV_NATIVE_TLS=]'
+complete -c uv -n "__fish_uv_using_subcommand help" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_NATIVE_TLS=]'
 complete -c uv -n "__fish_uv_using_subcommand help" -l no-native-tls
+complete -c uv -n "__fish_uv_using_subcommand help" -l system-certs -d 'Whether to load TLS certificates from the platform\'s native certificate store [env: UV_SYSTEM_CERTS=]'
+complete -c uv -n "__fish_uv_using_subcommand help" -l no-system-certs
 complete -c uv -n "__fish_uv_using_subcommand help" -l offline -d 'Disable network access [env: UV_OFFLINE=]'
 complete -c uv -n "__fish_uv_using_subcommand help" -l no-offline
 complete -c uv -n "__fish_uv_using_subcommand help" -l preview -d 'Whether to enable all experimental preview features [env: UV_PREVIEW=]'
