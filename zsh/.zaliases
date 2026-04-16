@@ -4,7 +4,6 @@ alias pc='open -a /Applications/PyCharm\ CE.app/Contents/MacOS/pycharm'
 
 #### ==== shell ====
 alias cls='clear'
-alias make='gmake'
 
 #### ==== ls ====
 alias l='eza -lah --icons --git'

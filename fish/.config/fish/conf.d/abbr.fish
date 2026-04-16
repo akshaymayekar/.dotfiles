@@ -4,7 +4,6 @@ abbr -a pc 'open -a /Applications/PyCharm\ CE.app/Contents/MacOS/pycharm'
 
 #### ==== shell ====
 abbr -a cls clear
-abbr -a make gmake
 
 #### ==== ls ====
 abbr -a l 'eza -lah --icons --git'
