@@ -1,64 +1,78 @@
-# ── Core Dependencies ─────────────────────────────────────────────────────────
+# ── Taps ──────────────────────────────────────────────────────────────────────
+tap "gromgit/brewtils"
+tap "oven-sh/bun"
+tap "teamookla/speedtest"
+
+# ── Formulae ──────────────────────────────────────────────────────────────────
+
+# Core Dependencies
 brew "openssl@3"
 
-# ── Shell / Terminal ──────────────────────────────────────────────────────────
+# Shell / Terminal
 brew "fish"
 brew "starship"
 brew "stow"
 brew "fzf"
 brew "ripgrep"
-brew "eza"           # modern ls replacement
-brew "yazi"          # terminal file manager
-brew "macchina"      # system info
+brew "eza"
+brew "yazi"
+brew "macchina"
 
-# ── Editors / Git ─────────────────────────────────────────────────────────────
+# Editors / Git
 brew "neovim"
 brew "git"
 brew "lazygit"
 brew "lazydocker"
 
-# ── Version Managers ──────────────────────────────────────────────────────────
+# Version Managers
 brew "mise"
-brew "fnm"
-
-# ── Languages / Runtimes ──────────────────────────────────────────────────────
+# Languages / Runtimes
 brew "bun"
 
-# ── Python Tooling ────────────────────────────────────────────────────────────
+# Python Tooling
 brew "uv"
 brew "jupyterlab"
 
-# ── Cloud / DevOps ────────────────────────────────────────────────────────────
+# Cloud / DevOps
 brew "awscli"
 
-# ── Containers ────────────────────────────────────────────────────────────────
+# Containers
 brew "docker"
 brew "docker-compose"
 brew "colima"
 brew "lima"
 
-# ── Databases ─────────────────────────────────────────────────────────────────
+# Databases
 brew "pgcli"
 
-# ── Build Tools ───────────────────────────────────────────────────────────────
+# Build Tools
 brew "make"
 brew "gcc"
 brew "cocoapods"
 
-# ── HTTP / Network ────────────────────────────────────────────────────────────
+# HTTP / Network
 brew "httpie"
 brew "hurl"
 brew "speedtest"
 
-# ── Utilities ─────────────────────────────────────────────────────────────────
-brew "ical-buddy"
+# Utilities
 brew "taproom"
 
-# ── Fonts ─────────────────────────────────────────────────────────────────────
+# ── Casks ─────────────────────────────────────────────────────────────────────
+
+# Fonts
 cask "font-fira-code-nerd-font"
 cask "font-jetbrains-mono-nerd-font"
 cask "font-meslo-lg-nerd-font"
 
-# ── Apps ──────────────────────────────────────────────────────────────────────
-cask "wezterm"
+# Apps
+cask "claude"
+cask "claude-code"
 cask "drawio"
+cask "ghostty"
+cask "rio"
+cask "wezterm"
+cask "zed"
+
+# Java
+cask "zulu@8"
