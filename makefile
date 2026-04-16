@@ -1,4 +1,4 @@
-.PHONY: all help stow unstow restow bootstrap install-brew brew-install brew-dump brew-sync clean fish-regen backup-vscode-extensions install-vscode-extensions
+.PHONY: all help stow unstow restow bootstrap install-brew brew-install brew-sync clean fish-regen backup-vscode-extensions install-vscode-extensions
 
 # ── Default ───────────────────────────────────────────────────────────────────
 all: stow
@@ -7,8 +7,6 @@ all: stow
 help: ## show this help
 	@grep -E '^[a-zA-Z_-]+:.*##' $(MAKEFILE_LIST) | \
 		awk 'BEGIN {FS = ":.*##"}; {printf "  \033[36m%-28s\033[0m %s\n", $$1, $$2}' | sort
-
-# ── Bootstrap ─────────────────────────────────────────────────────────────────
 
 # ── Bootstrap ─────────────────────────────────────────────────────────────────
 
@@ -38,9 +36,6 @@ brew-install: ## install all packages from Brewfile
 
 brew-sync: ## interactively add new brew installs to Brewfile
 	@$(CURDIR)/scripts/brew-sync.sh $(CURDIR)/Brewfile
-
-brew-dump: ## overwrite Brewfile from current brew state (use with caution)
-	brew bundle dump --force --no-upgrade --file=$(CURDIR)/Brewfile
 
 # ── Maintenance ───────────────────────────────────────────────────────────────
 
