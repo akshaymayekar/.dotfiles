@@ -77,7 +77,6 @@ make restow        # re-link (after adding new files)
 # homebrew
 make brew-install  # install packages from Brewfile
 make brew-sync     # interactively add new brew installs to Brewfile
-make brew-dump     # overwrite Brewfile from current brew state (caution)
 
 # maintenance
 make clean         # remove zsh and fish startup caches
