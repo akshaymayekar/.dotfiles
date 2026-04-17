@@ -160,7 +160,7 @@ command = /opt/homebrew/bin/fish
 | Alias | Command |
 |---|---|
 | `d` | `docker` |
-| `dc` | `docker-compose` |
+| `dc` | `docker compose` |
 | `dps` | `docker ps` |
 | `dpsa` | `docker ps -a` |
 | `dex` | `docker exec -it` |

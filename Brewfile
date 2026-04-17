@@ -38,7 +38,6 @@ brew "awscli"
 
 # Containers
 brew "docker"
-brew "docker-compose"
 brew "colima"
 brew "lima"
 

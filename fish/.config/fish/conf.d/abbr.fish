@@ -36,7 +36,7 @@ abbr -a lg lazygit
 
 #### ==== docker ====
 abbr -a d docker
-abbr -a dc docker-compose
+abbr -a dc docker compose
 abbr -a dps 'docker ps'
 abbr -a dpsa 'docker ps -a'
 abbr -a dex 'docker exec -it'
