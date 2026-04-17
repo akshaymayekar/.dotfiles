@@ -31,6 +31,7 @@ dotfiles/
 │       │   └── uv.fish             # lazy-loaded uv completions
 │       └── functions/
 │           ├── mkcd.fish           # mkdir + cd
+│           ├── killport.fish       # find and kill processes on port
 │           ├── fish-regen.fish     # rebuild startup caches
 │           └── fish_user_key_bindings.fish
 ├── zsh/
@@ -39,7 +40,7 @@ dotfiles/
 │   ├── .zshrc                      # core zsh config, plugins, tools
 │   ├── .zaliases                   # all aliases grouped by tool
 │   ├── .zkeybindings               # key bindings (standard + WezTerm)
-│   └── .zfunctions                 # custom shell functions
+│   └── .zfunctions                 # custom shell functions (mkcd, killport)
 ├── starship/
 │   └── .config/starship.toml       # minimal prompt config
 ├── wezterm/
@@ -85,6 +86,15 @@ make fish-regen    # rebuild fish startup caches (after upgrading mise/starship/
 # vscode
 make backup-vscode-extensions   # save current VSCode extensions to file
 make install-vscode-extensions  # install extensions from file
+```
+
+## Shell Functions
+
+Custom functions available in both fish and zsh:
+
+```sh
+mkcd <directory>    # create directory and cd into it
+killport <port>     # find and kill processes running on port (with confirmation)
 ```
 
 ## Shells

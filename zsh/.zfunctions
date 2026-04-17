@@ -6,3 +6,32 @@ mkcd() {
   fi
   mkdir -p "$1" && cd "$1"
 }
+
+#### ==== killport ====
+killport() {
+  if [ -z "$1" ]; then
+    echo "Usage: killport <port>"
+    return 1
+  fi
+
+  local port="$1"
+  local pids=$(lsof -ti :$port)
+
+  if [ -z "$pids" ]; then
+    echo "No processes found on port $port"
+    return 0
+  fi
+
+  echo "Processes on port $port:"
+  lsof -i :$port
+
+  read -q "confirm?Kill these processes? (y/n) "
+  echo
+
+  if [ "$confirm" = "y" ]; then
+    echo $pids | xargs kill -9
+    echo "Killed processes on port $port"
+  else
+    echo "Cancelled"
+  fi
+}
