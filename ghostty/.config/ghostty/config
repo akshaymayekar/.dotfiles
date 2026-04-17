@@ -23,7 +23,7 @@ scrollback-limit = 10000
 # ── Key Bindings ─────────────────────────────────────────────────────────────
 
 # Clear scrollback
-keybind = cmd+k=scroll_page_up
+keybind = cmd+k=clear_screen
 
 # Splits
 keybind = cmd+d=new_split:right
