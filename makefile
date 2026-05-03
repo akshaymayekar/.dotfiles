@@ -1,4 +1,4 @@
-.PHONY: all help stow unstow restow bootstrap install-brew brew-install brew-sync clean fish-regen backup-vscode-extensions install-vscode-extensions
+.PHONY: all help stow unstow restow bootstrap install-brew brew-install brew-sync clean fish-regen vscode-stow vscode-backup vscode-install
 
 # ── Default ───────────────────────────────────────────────────────────────────
 all: stow
@@ -10,10 +10,11 @@ help: ## show this help
 
 # ── Bootstrap ─────────────────────────────────────────────────────────────────
 
-bootstrap: ## full fresh machine setup (brew + packages + stow)
+bootstrap: ## full fresh machine setup (brew + packages + stow + vscode)
 	$(MAKE) install-brew
 	$(MAKE) brew-install
 	$(MAKE) stow
+	$(MAKE) vscode-install
 
 install-brew: ## install Homebrew if not present
 	@command -v brew >/dev/null 2>&1 && echo "Homebrew already installed." || \
@@ -23,9 +24,10 @@ install-brew: ## install Homebrew if not present
 
 stow: ## symlink all dotfiles into HOME
 	stow -v -t $(HOME) zsh starship wezterm fish ghostty
+	$(MAKE) vscode-stow
 
 unstow: ## remove all dotfile symlinks
-	stow -D -v -t $(HOME) zsh starship wezterm fish ghostty
+	stow -D -v -t $(HOME) zsh starship wezterm fish ghostty vscode
 
 restow: unstow stow ## re-link dotfiles (use after adding new files)
 
@@ -48,8 +50,15 @@ fish-regen: ## rebuild fish startup caches (run after upgrading mise/starship/uv
 
 # ── VSCode ────────────────────────────────────────────────────────────────────
 
-backup-vscode-extensions: ## save installed VSCode extensions to file
-	code --list-extensions > vscode-extensions.txt
+VSCODE_USER_DIR = $(HOME)/Library/Application Support/Code/User
 
-install-vscode-extensions: ## install VSCode extensions from file
-	cat vscode-extensions.txt | xargs -L 1 code --install-extension
+vscode-stow: ## remove conflicting VSCode files and stow (safe: content is already in dotfiles)
+	rm -f "$(VSCODE_USER_DIR)/settings.json"
+	rm -f "$(VSCODE_USER_DIR)/keybindings.json"
+	stow -v -t $(HOME) vscode
+
+vscode-backup: ## save current VSCode extensions list to vscode/extensions.txt
+	code --list-extensions > $(CURDIR)/vscode/extensions.txt
+
+vscode-install: ## install VSCode extensions from vscode/extensions.txt
+	xargs -L 1 code --install-extension < $(CURDIR)/vscode/extensions.txt

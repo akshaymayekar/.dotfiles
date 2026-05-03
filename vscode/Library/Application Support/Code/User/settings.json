@@ -1,0 +1,119 @@
+{
+	// ── Editor ────────────────────────────────────────────────────────────────
+	"editor.fontFamily": "FiraCode Nerd Font",
+	"editor.fontLigatures": true,
+	"editor.wordWrapColumn": 120,
+	"editor.rulers": [100, 120],
+	"editor.minimap.enabled": false,
+	"editor.formatOnSave": true,
+	"editor.autoClosingBrackets": "always",
+	"editor.autoClosingQuotes": "always",
+	"editor.tokenColorCustomizations": {
+		"textMateRules": [
+			{
+				"scope": "keyword.other.dotenv",
+				"settings": {
+					"foreground": "#FF000000"
+				}
+			}
+		]
+	},
+
+	// ── Workbench / UI ────────────────────────────────────────────────────────
+	"workbench.colorTheme": "Tokyo Night",
+	"workbench.iconTheme": "vs-seti",
+	"workbench.colorCustomizations": {
+		"tree.indentGuidesStroke": "#05ef3c"
+	},
+	"workbench.sideBar.location": "right",
+	"workbench.editor.enablePreview": false,
+	"workbench.tree.indent": 10,
+	"workbench.tree.renderIndentGuides": "always",
+	"workbench.browser.showInTitleBar": true,
+	"workbench.layoutControl.enabled": false,
+	"workbench.openInAgents.enabled": false,
+
+	// ── Window ────────────────────────────────────────────────────────────────
+	"window.zoomLevel": 1,
+	"window.commandCenter": false,
+	"window.openFilesInNewWindow": "on",
+	"window.openFoldersInNewWindow": "on",
+
+	// ── Files ─────────────────────────────────────────────────────────────────
+	"files.trimTrailingWhitespace": true,
+	"files.exclude": {
+		"**/__pycache__": true
+	},
+	"files.associations": {
+		".env*": "dotenv"
+	},
+
+	// ── Terminal ──────────────────────────────────────────────────────────────
+	"terminal.external.osxExec": "Ghostty.app",
+	"terminal.explorerKind": "external",
+
+	// ── Git ───────────────────────────────────────────────────────────────────
+	"git.openRepositoryInParentFolders": "never",
+
+	// ── TypeScript ────────────────────────────────────────────────────────────
+	"js/ts.updateImportsOnFileMove.enabled": "never",
+
+	// ── JSON schemas ──────────────────────────────────────────────────────────
+	"json.schemaDownload.trustedDomains": {
+		"https://schemastore.azurewebsites.net/": true,
+		"https://raw.githubusercontent.com/microsoft/vscode/": true,
+		"https://raw.githubusercontent.com/devcontainers/spec/": true,
+		"https://www.schemastore.org/": true,
+		"https://json.schemastore.org/": true,
+		"https://json-schema.org/": true,
+		"https://developer.microsoft.com/json-schemas/": true,
+		"https://biomejs.dev": true
+	},
+
+	// ── Language formatters ───────────────────────────────────────────────────
+	"[html]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[javascript]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[json]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[jsonc]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[lua]": {
+		"editor.defaultFormatter": "sumneko.lua"
+	},
+	"[python]": {
+		"editor.defaultFormatter": "charliermarsh.ruff"
+	},
+	"[typescript]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[typescriptreact]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+
+	// ── Python / Pylance / Ruff ───────────────────────────────────────────────
+	"python.languageServer": "Pylance",
+	"python.analysis.typeCheckingMode": "standard",
+	"python.analysis.autoFormatStrings": true,
+	"python.analysis.autoImportCompletions": false,
+	"python.analysis.completeFunctionParens": true,
+	"python.analysis.fixAll": [],
+	"ruff.configurationPreference": "filesystemFirst",
+	"ruff.lineLength": 100,
+
+	// ── Rust Analyzer ─────────────────────────────────────────────────────────
+	"rust-analyzer.inlayHints.typeHints.enable": false,
+	"rust-analyzer.inlayHints.chainingHints.enable": false,
+
+	// ── Claude Code ───────────────────────────────────────────────────────────
+	"claudeCode.preferredLocation": "sidebar",
+
+	// ── Other extensions ──────────────────────────────────────────────────────
+	"markdown-preview-enhanced.previewTheme": "night.css",
+	"markdown-preview-enhanced.enablePreviewZenMode": true
+}
