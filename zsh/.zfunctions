@@ -7,6 +7,37 @@ mkcd() {
   mkdir -p "$1" && cd "$1"
 }
 
+#### ==== qq ====
+qq() {
+  local model="llama3.2"
+  while [[ "$1" == --* ]]; do
+    case "$1" in
+      --model) model="$2"; shift 2 ;;
+      *) echo "Unknown option: $1"; return 1 ;;
+    esac
+  done
+
+  if [[ -z "$*" ]]; then
+    echo "Usage: qq [--model <model>] <question>"
+    return 1
+  fi
+
+  if ! curl -s http://localhost:11434 > /dev/null 2>&1; then
+    echo "Ollama is not running. Start it with: ollama serve"
+    return 1
+  fi
+
+  local question="$*"
+  local payload
+  payload=$(jq -n --arg m "$model" --arg q "$question" \
+    '{model: $m, system: "Be concise and to the point. No fluff.", prompt: $q, stream: false}')
+
+  curl -s http://localhost:11434/api/generate \
+    -H 'Content-Type: application/json' \
+    -d "$payload" \
+  | jq -r '.response'
+}
+
 #### ==== killport ====
 killport() {
   if [ -z "$1" ]; then
@@ -15,7 +46,8 @@ killport() {
   fi
 
   local port="$1"
-  local pids=$(lsof -ti :$port)
+  local pids
+  pids=$(lsof -ti :$port)
 
   if [ -z "$pids" ]; then
     echo "No processes found on port $port"
@@ -29,7 +61,7 @@ killport() {
   echo
 
   if [ "$confirm" = "y" ]; then
-    echo $pids | xargs kill -9
+    echo "$pids" | xargs kill -9
     echo "Killed processes on port $port"
   else
     echo "Cancelled"
