@@ -6,7 +6,7 @@ font-feature = clig
 font-feature = calt
 
 # ── Theme ─────────────────────────────────────────────────────────────────────
-# theme = tokyonight
+theme = tokyonight
 # theme = catppuccin-macchiato
 # theme = NightOwlDark
 
