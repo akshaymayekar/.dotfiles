@@ -1,2 +1,24 @@
 // Place your key bindings in this file to override the defaults
-[]
+[
+	{
+		"key": "cmd+k cmd+a",
+		"command": "claude-vscode.sidebar.open"
+	},
+	{
+		"key": "shift+cmd+b",
+		"command": "workbench.action.toggleAuxiliaryBar"
+	},
+	{
+		"key": "alt+cmd+b",
+		"command": "-workbench.action.toggleAuxiliaryBar"
+	},
+	{
+		"key": "cmd+k cmd+g",
+		"command": "workbench.action.chat.openInSidebar"
+	},
+	{
+		"key": "cmd+k cmd+h",
+		"command": "workbench.action.minimizeOtherEditorsHideSidebar",
+		"when": "auxiliaryBarVisible || multipleEditorGroups || sideBarVisible"
+	}
+]
